@@ -7,35 +7,58 @@
 
 import Foundation
 
-enum dogStatus:CaseIterable {
+enum DogStatus:String, CaseIterable {
     case none
-    case sit
-    case stand
-    case lie
+    case sit = "sit"
+    case stand = "stand"
+    case lie = "lie"
+    
+    static func findDogStatus(string: String) -> DogStatus {
+        switch string {
+        case "sit": return DogStatus.sit
+        case "stand": return DogStatus.stand
+        case "lie": return DogStatus.lie
+        default: return DogStatus.none
+        }
+    }
 }
 
-enum dogName {
-    case beagle
-    case bulldog
-    case chihuahua
-    case goldenretriever
-    case jindo
-    case maltese
-    case pomeranian
-    case poodle
-    case shihtzu
+enum DogName: String,CaseIterable {
+    case beagle = "beagle"
+    case bulldog = "bulldog"
+    case chihuahua = "chihuahua"
+    case goldenretriever = "goldenretriever"
+    case jindo = "jindo"
+    case maltese = "maltese"
+    case pomeranian = "pomeranian"
+    case poodle = "poodle"
+    case shihtzu = "shihtzu"
+    
+    static func findDogName(string: String) -> DogName {
+        switch string {
+        case "beagle": return DogName.beagle
+        case "bulldog": return DogName.bulldog
+        case "chihuahua": return DogName.chihuahua
+        case "goldenretriever": return DogName.goldenretriever
+        case "jindo": return DogName.jindo
+        case "maltese": return DogName.maltese
+        case "pomeranian": return DogName.pomeranian
+        case "poodle": return DogName.poodle
+        default: return DogName.shihtzu
+        }
+    }
 }
 
 class Dog {
-    var status: dogStatus
-    var name: dogName
+    var status: DogStatus
+    var name: DogName
     
-    init(dogStatus: dogStatus, dogName: dogName){
+    init(dogStatus: DogStatus, dogName: DogName){
         self.name = dogName
         self.status = dogStatus
     }
     
-    func find(str: String)->dogStatus{
+    func find(str: String)->DogStatus{
         switch str {
         case "sit":
             return .sit

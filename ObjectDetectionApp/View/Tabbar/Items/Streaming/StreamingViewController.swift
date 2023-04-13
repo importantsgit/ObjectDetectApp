@@ -88,9 +88,12 @@ extension StreamingViewController {
         if button.isSelected {
             button.isSelected = false
             containView.stopCaptureSession()
+            containView.stopRepeatTimer()
         } else {
             button.isSelected = true
             containView.startCaptureSession()
+            containView.startTimer()
+            
         }
     }
 }

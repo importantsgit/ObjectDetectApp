@@ -25,6 +25,8 @@ class Streaming1View: UIView {
     
     private var detectionOverlay: CALayer! = nil
     
+    private var dlqj: CMSampleBuffer?
+    
     private var requests = [VNRequest]() {
         didSet {
             print(requests)

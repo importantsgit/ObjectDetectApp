@@ -31,11 +31,15 @@ class StreamingView: UIView {
     
     private var detectionOverlay: CALayer! = nil
     
+    var timer: Timer?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCameraLiveView()
         poseName = dogPoseModel.model.modelDescription.classLabels as! [String]
         className = dogClassModel.model.modelDescription.classLabels as! [String]
+        
+
     }
     
     required init?(coder: NSCoder) {
@@ -66,6 +70,22 @@ extension StreamingView {
                                          height: bufferSize.height)
         detectionOverlay.position = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
         self.layer.addSublayer(detectionOverlay)
+    }
+    
+    func startTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval:5.0 , repeats: true, block: {[weak self] _ in
+            guard let self = self else {return}
+            print("1+\(self.classification.findStatus(name: .goldenretriever))")
+        })
+    }
+    
+    func stopRepeatTimer(){
+        if let timer = timer {
+            if timer.isValid {
+                timer.invalidate()
+            }
+
+        }
     }
     
     
@@ -184,14 +204,14 @@ extension StreamingView {
         guard let detectionOverlay = detectionOverlay else {return}
         CATransaction.begin()
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-        detectionOverlay.sublayers = nil // remove all the old recognized objects
+        detectionOverlay.sublayers = nil
         for (idx, confidence) in objectObservation.confidenceShapedArray.enumerated() {
             
             let confidence = confidence
             let coordinate = objectObservation.coordinatesShapedArray[idx]
             
             let maxClassIndex = confidence.scalars.enumerated().max{ $0.element < $1.element }!.offset
-            let firstPose = className[maxClassIndex]
+            let firstName = className[maxClassIndex]
 
             let digit: Float = pow(10.0, 2.0)
             let classConfidence = round(confidence[scalarAt: maxClassIndex] * 100 * digit)/digit
@@ -199,11 +219,12 @@ extension StreamingView {
             let rect = CGRect(x: (initBox[0] - (initBox[2]/2.0)), y: (initBox[1] - (initBox[3]/2.0)), width: initBox[2], height: initBox[3])
             let objectBounds = VNImageRectForNormalizedRect(rect, Int(bufferSize.width), Int(bufferSize.height))
             if let output = try? dogPoseModel.prediction(image: image) {
-                
+                classification.chageDogStatus(name: DogName.findDogName(string: firstName), status: DogStatus.findDogStatus(string: output.classLabel))
+
                 if Consts.consts.IS_DEBUG {
                     let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
                     let textLayer = self.createTextSubLayerInBounds(objectBounds,
-                                                                    identifier: firstPose,
+                                                                    identifier: firstName,
                                                                     confidence: classConfidence,
                                                                     classLabel: output.classLabel)
                     shapeLayer.addSublayer(textLayer)
@@ -276,7 +297,6 @@ extension StreamingView {
 
 extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-
         
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
 
@@ -301,4 +321,6 @@ extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
 }
+
+
 
