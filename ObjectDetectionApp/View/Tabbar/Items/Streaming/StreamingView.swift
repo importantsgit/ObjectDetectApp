@@ -32,14 +32,14 @@ class StreamingView: UIView {
     private var detectionOverlay: CALayer! = nil
     
     var timer: Timer?
+        
+    var pixelBuffer: CVPixelBuffer?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCameraLiveView()
         poseName = dogPoseModel.model.modelDescription.classLabels as! [String]
         className = dogClassModel.model.modelDescription.classLabels as! [String]
-        
-
     }
     
     required init?(coder: NSCoder) {
@@ -55,10 +55,8 @@ extension StreamingView {
         let rootLayer = self.layer
         streamingLayer.frame = rootLayer.bounds
         rootLayer.addSublayer(streamingLayer)
-
         setupdetectionOverlay()
         updateLayerGeometry()
-        
     }
     
     func setupdetectionOverlay() {
@@ -73,19 +71,32 @@ extension StreamingView {
     }
     
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval:5.0 , repeats: true, block: {[weak self] _ in
-            guard let self = self else {return}
-            print("1+\(self.classification.findStatus(name: .goldenretriever))")
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5 , repeats: true, block: {[weak self] _ in
+            guard let self = self,
+                  let pixelBuffer = self.pixelBuffer,
+                  let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70)
+            else {return}
+
+            if !output.confidenceShapedArray.isEmpty {
+                DispatchQueue.main.async(execute: {
+                    self.drawVisionRequestResults(output, pixelBuffer)
+                })
+            } else {
+                DispatchQueue.main.async {
+                    self.detectionOverlay.sublayers = nil
+                }
+            }
         })
     }
     
     func stopRepeatTimer(){
-        if let timer = timer {
-            if timer.isValid {
-                timer.invalidate()
-            }
-
-        }
+        guard let timer = timer else { return }
+        if timer.isValid { timer.invalidate() }
+        
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] _ in
+            guard let self = self else {return}
+            self.detectionOverlay.sublayers = nil
+        })
     }
     
     
@@ -100,7 +111,7 @@ extension StreamingView {
         }
         
         caputureSession.beginConfiguration()
-        caputureSession.sessionPreset = .vga640x480
+        caputureSession.sessionPreset = .hd1280x720
         
         guard caputureSession.canAddInput(deviceInput) else {
             CLog("세션에 input을 추가하지 못했습니다")
@@ -133,7 +144,7 @@ extension StreamingView {
             bufferSize.width = CGFloat(dimensions.width)
             bufferSize.height = CGFloat(dimensions.height)
             
-            let currentFrameRate:Int32 = 3
+            let currentFrameRate:Int32 = 7
             captureDevice!.activeVideoMinFrameDuration = CMTimeMake(value: 1, timescale: currentFrameRate)
             captureDevice!.activeVideoMaxFrameDuration = CMTimeMake(value: 1, timescale: currentFrameRate)
             
@@ -165,15 +176,13 @@ extension StreamingView {
         streamingLayer.sublayers = nil
     }
     
-    //MARK: -
+    //MARK: - change image to CVPixelBuffer
     
     func buffer(from image: UIImage) -> CVPixelBuffer? {
       let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
       var pixelBuffer : CVPixelBuffer?
       let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.size.width), Int(image.size.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
-      guard (status == kCVReturnSuccess) else {
-        return nil
-      }
+      guard (status == kCVReturnSuccess) else { return nil }
 
       CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
       let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
@@ -201,7 +210,7 @@ extension StreamingView {
     }
     
     func drawVisionRequestResults(_ objectObservation: dogClassOutput,_ image: CVPixelBuffer) {
-        guard let detectionOverlay = detectionOverlay else {return}
+        guard let detectionOverlay = self.detectionOverlay else {return}
         CATransaction.begin()
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
         detectionOverlay.sublayers = nil
@@ -216,23 +225,22 @@ extension StreamingView {
             let digit: Float = pow(10.0, 2.0)
             let classConfidence = round(confidence[scalarAt: maxClassIndex] * 100 * digit)/digit
             let initBox = coordinate.scalars.map{CGFloat($0)}
+            // 왼쪽, 윗 모서리 x / y / 너비 / 높이
             let rect = CGRect(x: (initBox[0] - (initBox[2]/2.0)), y: (initBox[1] - (initBox[3]/2.0)), width: initBox[2], height: initBox[3])
             let objectBounds = VNImageRectForNormalizedRect(rect, Int(bufferSize.width), Int(bufferSize.height))
-            if let output = try? dogPoseModel.prediction(image: image) {
-                classification.chageDogStatus(name: DogName.findDogName(string: firstName), status: DogStatus.findDogStatus(string: output.classLabel))
 
-                if Consts.consts.IS_DEBUG {
-                    let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
-                    let textLayer = self.createTextSubLayerInBounds(objectBounds,
+            if Consts.consts.IS_DEBUG {
+                let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
+                let textLayer = self.createTextSubLayerInBounds(objectBounds,
                                                                     identifier: firstName,
-                                                                    confidence: classConfidence,
-                                                                    classLabel: output.classLabel)
-                    shapeLayer.addSublayer(textLayer)
-                    detectionOverlay.addSublayer(shapeLayer)
+                                                                    confidence: classConfidence
+                                                                )
+                shapeLayer.addSublayer(textLayer)
+                detectionOverlay.addSublayer(shapeLayer)
                     
-                }
-                self.updateLayerGeometry()
             }
+            self.updateLayerGeometry()
+            
         }
         
         CATransaction.commit()
@@ -258,12 +266,12 @@ extension StreamingView {
         CATransaction.commit()
     }
     
-    func createTextSubLayerInBounds(_ bounds: CGRect, identifier: String, confidence: Float, classLabel: String) -> CATextLayer {
+    func createTextSubLayerInBounds(_ bounds: CGRect, identifier: String, confidence: Float) -> CATextLayer {
         
         let textLayer = CATextLayer()
         
-        let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\nConfidence: %2.f \(classLabel)", confidence))
-        let largeFont = UIFont(name: "Helvetica", size: 12.0)!
+        let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\nConfidence: %2.f", confidence))
+        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: identifier.count))
         textLayer.string = formattedString
  
@@ -291,8 +299,6 @@ extension StreamingView {
         
         return shapeLayer
     }
-    
-    func DrawingOutput(){}
 }
 
 extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -310,15 +316,8 @@ extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let pixelBuffer = buffer(from: resizedImage)
         
-        if let pixelBuffer = pixelBuffer,
-           let output = try? dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.7, confidenceThreshold: 0.7) {
-            if output.confidence.count != 0 {
-                DispatchQueue.main.async(execute: { [weak self] in
-                    guard let self = self else {return}
-                    self.drawVisionRequestResults(output, pixelBuffer)
-                })
-            }
-        }
+        guard let pixelBuffer = pixelBuffer else {return}
+        self.pixelBuffer = pixelBuffer
     }
 }
 

@@ -216,6 +216,7 @@
 		7BB75D6C29E3FA88001DA941 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				7BF534A529ECDB9D00E56957 /* OpenCVWrapper */,
 				7BB75D6D29E3FA98001DA941 /* OBUtils.swift */,
 				7BB75D6F29E3FAE9001DA941 /* PreferenceDataUtils.swift */,
 				7B74A02E29E4DDBC008A20B8 /* CLog.swift */,
@@ -248,6 +249,13 @@
 				7BC6EFB929E54F0100FD2512 /* UIButton.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		7BF534A529ECDB9D00E56957 /* OpenCVWrapper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = OpenCVWrapper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +292,7 @@
 				TargetAttributes = {
 					7BB75D4429E3F6E4001DA941 = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -526,6 +535,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y3C29YBST;
@@ -543,6 +553,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Cudo.ObjectDetectionApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -554,6 +567,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y3C29YBST;
@@ -571,6 +585,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Cudo.ObjectDetectionApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
