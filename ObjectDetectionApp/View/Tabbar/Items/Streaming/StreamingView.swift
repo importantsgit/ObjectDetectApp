@@ -17,6 +17,14 @@ class StreamingView: UIView {
     var dogClassModel = try! dogClass(configuration: MLModelConfiguration())
     var className = [String]()
     
+    var motionDetection = MotionDetectionManager()
+    
+    var imageView: UIImageView = {
+        var imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
+    
     var classification = Classification()
     
     var bufferSize: CGSize = .zero
@@ -56,6 +64,13 @@ extension StreamingView {
         streamingLayer.frame = rootLayer.bounds
         rootLayer.addSublayer(streamingLayer)
         setupdetectionOverlay()
+        
+        self.addSubview(imageView)
+        imageView.snp.makeConstraints{
+            $0.width.height.equalTo(160)
+            $0.top.left.equalToSuperview()
+        }
+        
         updateLayerGeometry()
     }
     
@@ -73,18 +88,26 @@ extension StreamingView {
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 0.5 , repeats: true, block: {[weak self] _ in
             guard let self = self,
-                  let pixelBuffer = self.pixelBuffer,
-                  let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70)
+                  let pixelBuffer = self.pixelBuffer
             else {return}
 
-            if !output.confidenceShapedArray.isEmpty {
-                DispatchQueue.main.async(execute: {
-                    self.drawVisionRequestResults(output, pixelBuffer)
-                })
-            } else {
-                DispatchQueue.main.async {
-                    self.detectionOverlay.sublayers = nil
+            if Consts.consts.IS_DEBUG {
+                if Consts.consts.IS_MOTIONDETECT {
+                    guard let image = self.motionDetection.detectingImage() else {return}
+                    self.imageView.image = image
+                } else{
+                    guard let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70) else {return}
+                    if !output.confidenceShapedArray.isEmpty {
+                        DispatchQueue.main.async(execute: {
+                            self.drawVisionRequestResults(output, pixelBuffer)
+                        })
+                    } else {
+                        DispatchQueue.main.async {
+                            self.detectionOverlay.sublayers = nil
+                        }
+                    }
                 }
+
             }
         })
     }
@@ -214,11 +237,12 @@ extension StreamingView {
         CATransaction.begin()
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
         detectionOverlay.sublayers = nil
+        
         for (idx, confidence) in objectObservation.confidenceShapedArray.enumerated() {
-            
+                
             let confidence = confidence
             let coordinate = objectObservation.coordinatesShapedArray[idx]
-            
+                
             let maxClassIndex = confidence.scalars.enumerated().max{ $0.element < $1.element }!.offset
             let firstName = className[maxClassIndex]
 
@@ -228,6 +252,7 @@ extension StreamingView {
             // 왼쪽, 윗 모서리 x / y / 너비 / 높이
             let rect = CGRect(x: (initBox[0] - (initBox[2]/2.0)), y: (initBox[1] - (initBox[3]/2.0)), width: initBox[2], height: initBox[3])
             let objectBounds = VNImageRectForNormalizedRect(rect, Int(bufferSize.width), Int(bufferSize.height))
+            print(objectBounds)
 
             if Consts.consts.IS_DEBUG {
                 let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
@@ -237,12 +262,12 @@ extension StreamingView {
                                                                 )
                 shapeLayer.addSublayer(textLayer)
                 detectionOverlay.addSublayer(shapeLayer)
-                    
             }
             self.updateLayerGeometry()
             
+            
         }
-        
+
         CATransaction.commit()
     }
     
@@ -299,27 +324,47 @@ extension StreamingView {
         
         return shapeLayer
     }
-}
-
-extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+    
+    public func exifOrientationFromDeviceOrientation() -> UIImage.Orientation {
+        let curDeviceOrientation = UIDevice.current.orientation
+        let exifOrientation: UIImage.Orientation
         
-        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
-
-        let ciImge = CIImage(cvPixelBuffer: imageBuffer)
-        let image = UIImage(ciImage: ciImge)
-
-        UIGraphicsBeginImageContext(CGSize(width: 640, height: 640))
-        image.draw(in: CGRect(x: 0, y: 0, width: 640, height: 640))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        let pixelBuffer = buffer(from: resizedImage)
-        
-        guard let pixelBuffer = pixelBuffer else {return}
-        self.pixelBuffer = pixelBuffer
+        switch curDeviceOrientation {
+        case UIDeviceOrientation.portraitUpsideDown:  // Device oriented vertically, home button on the top
+            exifOrientation = .up
+        case UIDeviceOrientation.landscapeLeft:       // Device oriented horizontally, home button on the right
+            exifOrientation = .up
+        case UIDeviceOrientation.landscapeRight:      // Device oriented horizontally, home button on the left
+            exifOrientation = .up
+        case UIDeviceOrientation.portrait:            // Device oriented vertically, home button on the bottom
+            exifOrientation = .up
+        default:
+            exifOrientation = .up
+        }
+        return exifOrientation
     }
 }
 
 
 
+extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
+
+        let ciImage = CIImage(cvPixelBuffer: imageBuffer)
+        let image = UIImage(ciImage: ciImage, scale: 1.0, orientation: .right) //exifOrientationFromDeviceOrientation())
+
+        UIGraphicsBeginImageContext(CGSize(width: 720, height: 720))
+        image.draw(in: CGRect(x: 0, y: 0, width: 720, height: 720))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        
+        let pixelBuffer = buffer(from: resizedImage)
+        
+        motionDetection.inqueue(image: resizedImage)
+        
+        guard let pixelBuffer = pixelBuffer else {return}
+        self.pixelBuffer = pixelBuffer
+    }
+}

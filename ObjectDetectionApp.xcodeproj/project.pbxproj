@@ -35,6 +35,8 @@
 		7BC6EFB529E54B9D00FD2512 /* Streaming1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB429E54B9D00FD2512 /* Streaming1View.swift */; };
 		7BC6EFB729E54C9C00FD2512 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */; };
 		7BC6EFBA29E54F0100FD2512 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB929E54F0100FD2512 /* UIButton.swift */; };
+		7BE5308329EE17D100AF84F4 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7BE5308229EE17D100AF84F4 /* OpenCVWrapper.mm */; };
+		7BE5308729EE2BCA00AF84F4 /* MotionDetectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE5308629EE2BCA00AF84F4 /* MotionDetectionManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,11 @@
 		7BC6EFB429E54B9D00FD2512 /* Streaming1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Streaming1View.swift; sourceTree = "<group>"; };
 		7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		7BC6EFB929E54F0100FD2512 /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
+		7BE5308029EE17D100AF84F4 /* ObjectDetectionApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ObjectDetectionApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		7BE5308129EE17D100AF84F4 /* OpenCVWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenCVWrapper.h; sourceTree = "<group>"; };
+		7BE5308229EE17D100AF84F4 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
+		7BE5308529EE1C6D00AF84F4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		7BE5308629EE2BCA00AF84F4 /* MotionDetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDetectionManager.swift; sourceTree = "<group>"; };
 		800ADAAF954AE3827708B4C0 /* Pods_ObjectDetectionApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObjectDetectionApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB91639BE3AAA633CE107189 /* Pods-ObjectDetectionApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectDetectionApp.release.xcconfig"; path = "Target Support Files/Pods-ObjectDetectionApp/Pods-ObjectDetectionApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -104,7 +111,6 @@
 		7B74A03029E4E171008A20B8 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				7B74A03129E4E2B9008A20B8 /* LaunchViewModel.swift */,
 				7B74A03829E4FD37008A20B8 /* StreamingViewModel.swift */,
 				7B74A03A29E4FD4C008A20B8 /* VideoViewModel.swift */,
 			);
@@ -143,6 +149,7 @@
 			children = (
 				7BB75D6C29E3FA88001DA941 /* Util */,
 				7BB75D5D29E3F76E001DA941 /* View */,
+				7B74A03129E4E2B9008A20B8 /* LaunchViewModel.swift */,
 				7B74A03029E4E171008A20B8 /* ViewModel */,
 				7BB75D6129E3F7B4001DA941 /* Model */,
 				7BB75D5C29E3F766001DA941 /* Service */,
@@ -151,6 +158,8 @@
 				7BB75D6829E3F869001DA941 /* Const.swift */,
 				7BB75D6029E3F7A7001DA941 /* Resource */,
 				7BB75D5629E3F6E4001DA941 /* Info.plist */,
+				7BE5308029EE17D100AF84F4 /* ObjectDetectionApp-Bridging-Header.h */,
+				7BE5308529EE1C6D00AF84F4 /* PrefixHeader.pch */,
 			);
 			path = ObjectDetectionApp;
 			sourceTree = "<group>";
@@ -161,6 +170,7 @@
 				7BB75D6A29E3F89B001DA941 /* DataManager.swift */,
 				7B74A09729E52E5B008A20B8 /* Classification.swift */,
 				7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */,
+				7BE5308629EE2BCA00AF84F4 /* MotionDetectionManager.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -254,6 +264,8 @@
 		7BF534A529ECDB9D00E56957 /* OpenCVWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				7BE5308129EE17D100AF84F4 /* OpenCVWrapper.h */,
+				7BE5308229EE17D100AF84F4 /* OpenCVWrapper.mm */,
 			);
 			path = OpenCVWrapper;
 			sourceTree = "<group>";
@@ -385,8 +397,10 @@
 				7B74A03729E4FAD1008A20B8 /* Dog.swift in Sources */,
 				7B74A03229E4E2B9008A20B8 /* LaunchViewModel.swift in Sources */,
 				7BC6EFBA29E54F0100FD2512 /* UIButton.swift in Sources */,
+				7BE5308329EE17D100AF84F4 /* OpenCVWrapper.mm in Sources */,
 				7B74A03929E4FD37008A20B8 /* StreamingViewModel.swift in Sources */,
 				7BB75D4929E3F6E4001DA941 /* AppDelegate.swift in Sources */,
+				7BE5308729EE2BCA00AF84F4 /* MotionDetectionManager.swift in Sources */,
 				7BC6EFB729E54C9C00FD2512 /* ModelManager.swift in Sources */,
 				7B74A03B29E4FD4C008A20B8 /* VideoViewModel.swift in Sources */,
 				7BB75D4B29E3F6E4001DA941 /* SceneDelegate.swift in Sources */,
@@ -539,6 +553,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y3C29YBST;
+				GCC_PREFIX_HEADER = ObjectDetectionApp/prefixHeader.pch;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ObjectDetectionApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -554,6 +569,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ObjectDetectionApp/ObjectDetectionApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;
@@ -571,6 +587,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9Y3C29YBST;
+				GCC_PREFIX_HEADER = ObjectDetectionApp/prefixHeader.pch;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ObjectDetectionApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -586,6 +603,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ObjectDetectionApp/ObjectDetectionApp-Bridging-Header.h";
 				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
