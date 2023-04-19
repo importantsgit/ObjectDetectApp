@@ -32,7 +32,8 @@ class VideoViewController: OBViewController {
     var titleLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.text = "비디오"
+        label.font = .systemFont(ofSize: 18, weight: .bold)
         
         return label
     }()
@@ -80,11 +81,7 @@ extension VideoViewController {
             self.view.addSubview($0)
         }
         
-        containView.snp.makeConstraints{
-            $0.top.equalTo(self.view.safeAreaInsets)
-            $0.right.left.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
+
         
         button.snp.makeConstraints{
             $0.width.height.equalTo(64)
@@ -98,10 +95,16 @@ extension VideoViewController {
         }
         
         titleView.snp.makeConstraints{
-            $0.centerX.equalToSuperview().inset(16)
-            $0.top.equalToSuperview()
-            $0.height.equalTo(60)
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.height.equalTo(48)
             $0.left.right.equalToSuperview()
+        }
+        
+        containView.snp.makeConstraints{
+            $0.top.equalTo(titleView.snp.bottom)
+            $0.right.left.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
         
         titleView.addSubview(titleLabel)
@@ -115,10 +118,10 @@ extension VideoViewController {
         
         if button.isSelected {
             button.isSelected = false
-            containView.play()
+            containView.pause()
         } else {
             button.isSelected = true
-            containView.pause()
+            containView.play()
         }
     }
     

@@ -17,11 +17,17 @@ class StreamingView: UIView {
     var dogClassModel = try! dogClass(configuration: MLModelConfiguration())
     var className = [String]()
     
-    var motionDetection = MotionDetectionManager()
+    var motionDetection: MotionDetectionManager?
     
     var imageView: UIImageView = {
         var imageView = UIImageView()
         imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
+        
+        imageView.layer.cornerRadius = 4.0
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.7
         return imageView
     }()
     
@@ -68,7 +74,7 @@ extension StreamingView {
         self.addSubview(imageView)
         imageView.snp.makeConstraints{
             $0.width.height.equalTo(160)
-            $0.top.left.equalToSuperview()
+            $0.top.left.equalToSuperview().inset(16)
         }
         
         updateLayerGeometry()
@@ -86,6 +92,7 @@ extension StreamingView {
     }
     
     func startTimer() {
+        motionDetection = MotionDetectionManager()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5 , repeats: true, block: {[weak self] _ in
             guard let self = self,
                   let pixelBuffer = self.pixelBuffer
@@ -93,7 +100,12 @@ extension StreamingView {
 
             if Consts.consts.IS_DEBUG {
                 if Consts.consts.IS_MOTIONDETECT {
-                    guard let image = self.motionDetection.detectingImage() else {return}
+                    guard let motionDetection = self.motionDetection,
+                          let image = motionDetection.detectingImage() else {
+                        self.imageView.layer.opacity = 0.3
+                        return
+                    }
+                    self.imageView.layer.opacity = 1.0
                     self.imageView.image = image
                 } else{
                     guard let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70) else {return}
@@ -324,25 +336,6 @@ extension StreamingView {
         
         return shapeLayer
     }
-    
-    public func exifOrientationFromDeviceOrientation() -> UIImage.Orientation {
-        let curDeviceOrientation = UIDevice.current.orientation
-        let exifOrientation: UIImage.Orientation
-        
-        switch curDeviceOrientation {
-        case UIDeviceOrientation.portraitUpsideDown:  // Device oriented vertically, home button on the top
-            exifOrientation = .up
-        case UIDeviceOrientation.landscapeLeft:       // Device oriented horizontally, home button on the right
-            exifOrientation = .up
-        case UIDeviceOrientation.landscapeRight:      // Device oriented horizontally, home button on the left
-            exifOrientation = .up
-        case UIDeviceOrientation.portrait:            // Device oriented vertically, home button on the bottom
-            exifOrientation = .up
-        default:
-            exifOrientation = .up
-        }
-        return exifOrientation
-    }
 }
 
 
@@ -352,16 +345,16 @@ extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
 
         let ciImage = CIImage(cvPixelBuffer: imageBuffer)
-        let image = UIImage(ciImage: ciImage, scale: 1.0, orientation: .right) //exifOrientationFromDeviceOrientation())
+        let image = UIImage(ciImage: ciImage, scale: 1.0, orientation: .right)
 
-        UIGraphicsBeginImageContext(CGSize(width: 720, height: 720))
-        image.draw(in: CGRect(x: 0, y: 0, width: 720, height: 720))
+        UIGraphicsBeginImageContext(CGSize(width: bufferSize.width/2, height: bufferSize.height/2))
+        image.draw(in: CGRect(x: 0, y: 0, width: bufferSize.width/2, height: bufferSize.height/2))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        
         let pixelBuffer = buffer(from: resizedImage)
         
+        guard let motionDetection = motionDetection else {return}
         motionDetection.inqueue(image: resizedImage)
         
         guard let pixelBuffer = pixelBuffer else {return}

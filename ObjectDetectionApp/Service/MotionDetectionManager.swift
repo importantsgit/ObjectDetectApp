@@ -23,18 +23,28 @@ class MotionDetectionManager {
         }
     }
     
+    public func test()->[UIImage]{
+        return imageQueue.map{
+            if let UIImage = $0 {
+                return UIImage
+            } else {
+                return UIImage()
+            }
+        }
+    }
+    
     public func detectingImage()->UIImage? {
         if queueCount == 3 {
             guard let image1 = imageQueue[0],
                   let image2 = imageQueue[1],
-                  let image3 = imageQueue[2] else {return nil}
+                  let image3 = imageQueue[2] else {CLog("images are not exist");return nil}
             let rect = openCVWrapper.detectMotion([image1, image2, image3])
             if rect.width != 0.0 {
                 let objectBounds = rect
                 let image = cropRect(objectBounds ,image: image3)
-            
                 return image
             }
+            print(rect)
         }
         return nil
     }

@@ -19,7 +19,8 @@ class StreamingViewController: OBViewController {
     var titleLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
-        label.font = .systemFont(ofSize: 14, weight: .bold)
+        label.text = "스트리밍"
+        label.font = .systemFont(ofSize: 18, weight: .bold)
         
         return label
     }()
@@ -65,8 +66,8 @@ extension StreamingViewController {
         
         titleView.snp.makeConstraints{
             $0.centerX.equalToSuperview().inset(16)
-            $0.top.equalTo(self.view.safeAreaInsets)
-            $0.height.equalTo(60)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.height.equalTo(48)
             $0.left.right.equalToSuperview()
         }
         

@@ -23,8 +23,16 @@ class VideoView: UIView {
     var imageView: UIImageView = {
         var imageView = UIImageView()
         imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
+        
+        imageView.layer.cornerRadius = 4.0
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.7
+        
         return imageView
     }()
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,20 +50,29 @@ extension VideoView {
         playerLayer.frame = self.frame
         playerLayer.videoGravity = .resizeAspectFill
         
-        self.addSubview(imageView)
+        [imageView].forEach{
+            self.addSubview($0)
+        }
+        
         imageView.snp.makeConstraints{
             $0.width.height.equalTo(160)
-            $0.top.left.equalToSuperview()
+            $0.top.left.equalToSuperview().inset(16)
         }
     }
     
     //MARK: - setTimer
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5 , repeats: true, block: {[weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 2.4, repeats: true, block: {[weak self] _ in
             guard let self = self else {return}
 
             if Consts.consts.IS_DEBUG {
                 if Consts.consts.IS_MOTIONDETECT {
+                    
+//                    var arr = self.motionDetection.test()
+//                    self.imageView.image = arr[0]
+//                    self.imageView2.image = arr[1]
+//                    self.imageView3.image = arr[2]
+                    
                     guard let image = self.motionDetection.detectingImage() else {return}
                     self.imageView.image = image
                 }
@@ -76,6 +93,7 @@ extension VideoView {
     func play() {
         if self.playerLayer.player?.isPlaying != nil {
             self.playerLayer.player?.play()
+            addPeriodicTimeObserver()
             startTimer()
         }
     }
@@ -99,6 +117,8 @@ extension VideoView {
     }
     
     func changePlayItem(url: URL) {
+        stopRepeatTimer()
+        removePeriodicTimeObserver()
         let playerItem = AVPlayerItem(url: url)
         let otherPlayer = AVPlayer(playerItem: playerItem)
         self.player = nil
@@ -115,17 +135,34 @@ extension VideoView {
         imageGenerator.appliesPreferredTrackTransform = true
         let times = [NSValue(time: player.currentTime())]
         
-        imageGenerator.generateCGImagesAsynchronously(forTimes: times) { [weak self] _, CGImage, _, _, _ in
-            if let self = self,
-               let cgImage = CGImage {
-                let image = UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
-                UIGraphicsBeginImageContext(CGSize(width: 720, height: 720))
-                image.draw(in: CGRect(x: 0, y: 0, width: 720, height: 720))
-                let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
-                UIGraphicsEndImageContext()
-                
-                self.motionDetection.inqueue(image: resizedImage)
-            }
+        imageGenerator.generateCGImagesAsynchronously(forTimes: times) { [weak self] _, cgImage, _, _, _ in
+            guard let self = self,
+                  let cgImage = cgImage else { return }
+            let image = UIImage(cgImage: cgImage, scale: 1.0, orientation: .up)
+            UIGraphicsBeginImageContext(CGSize(width: image.size.width/2, height: image.size.height/2))
+            image.draw(in: CGRect(x: 0, y: 0, width: image.size.width/2, height: image.size.height/2))
+            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
+            UIGraphicsEndImageContext()
+
+            self.motionDetection.inqueue(image: resizedImage)
+        }
+    }
+
+    
+    func addPeriodicTimeObserver() {
+        let timeScale = CMTimeScale(NSEC_PER_SEC)
+        let time = CMTime(seconds: 0.8, preferredTimescale: timeScale)
+        
+        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .global(), using: { [weak self] time in
+            guard let self = self else {return}
+            self.getImage()
+        })
+    }
+    
+    func removePeriodicTimeObserver() {
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
         }
     }
     

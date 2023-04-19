@@ -30,7 +30,6 @@ class OBViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupStatusBar()
     }
     
     override func viewDidLoad() {

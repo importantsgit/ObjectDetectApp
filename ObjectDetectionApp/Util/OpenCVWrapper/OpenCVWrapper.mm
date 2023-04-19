@@ -16,6 +16,8 @@
 - (CGRect)detectMotion:(NSArray<UIImage *> *)images {
     int thresh = 25;
     int max_diff = 5;
+    int width = images[0].size.width;
+    int height = images[0].size.height;
     
     cv::Mat aImageMat, bImageMat, cImageMat;
     
@@ -66,10 +68,10 @@
         
         if (pt1.x < 0.0) {pt1.x = 0.0;}
         if (pt1.y < 0.0) {pt1.y = 0.0;}
-        if (pt1.x > 719.0) {pt1.x = 719.0;}
-        if (pt1.y > 719.0) {pt1.y = 719.0;}
+        if (pt2.x > width) {pt2.x = width - 0.1;}
+        if (pt2.y > height) {pt2.y = height - 0.1;}
         
-        return rect = CGRectMake(pt1.x, pt1.y, pt2.x - pt1.x, pt2.y - pt1.y);
+        return rect = CGRectMake(pt1.x, pt1.y,pt2.x - pt1.x, pt2.y - pt1.y);
     }
     
     return CGRectMake(0.0, 0.0, 0.0, 0.0);
