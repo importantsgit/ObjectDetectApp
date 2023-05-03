@@ -13,7 +13,7 @@
 
 //Here we can use C++ code
 
-- (CGRect)detectMotion:(NSArray<UIImage *> *)images {
+- (NSArray<NSValue *> *)detectMotion:(NSArray<UIImage *> *)images {
     int thresh = 25;
     int max_diff = 5;
     int width = images[0].size.width;
@@ -36,46 +36,64 @@
     cv::absdiff(aGray, bGray, diff1);
     cv::absdiff(bGray, cGray, diff2);
     
-    cv::Mat diff1_t, diff2_t, diff;
+    cv::Mat diff1_t, diff2_t, dst, diff;
+    cv::Mat kernel = cv::Mat::ones(45, 45, CV_8U);
+
+    cv::dilate(diff1, dst, kernel);
     
-    cv::threshold(diff1, diff1_t, thresh, max_diff, cv::THRESH_BINARY);
+    cv::threshold(dst, diff1_t, thresh, max_diff, cv::THRESH_BINARY);
     cv::threshold(diff2, diff2_t, thresh, max_diff, cv::THRESH_BINARY);
     
     cv::bitwise_and(diff1_t, diff2_t, diff);
     
-    cv::Mat difff;
-    [self morphologyExWithInput:diff output:difff];
+    std::vector<cv::Mat> results;
     
-    int diff_cnt = [self countNonZeroWithMat:difff];
+    cv::findContours(diff1_t, results, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     
-    CGRect rect;
-    
-    if (diff_cnt > max_diff) {
-        NSArray<NSValue *> *nzero = [self nonZeroIndicesFromArray: difff];
-        CGPoint pt1 = CGPointMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT));
-        CGPoint pt2 = CGPointMake(CGFloat(0), CGFloat(0));
-        for (NSValue *value in nzero) {
-            CGPoint point = [value CGPointValue];
-            pt1.x = MIN(pt1.x, point.x);
-            pt1.y = MIN(pt1.y, point.y);
-            pt2.x = MAX(pt2.x, point.x);
-            pt2.y = MAX(pt2.y, point.y);
+    NSMutableArray *cgRects = [NSMutableArray array];
+    for (const auto& result: results) {
+        auto area = cv::contourArea(result);
+        NSLog(@"%f", area);
+        if (area < 20000) {
+            continue;
         }
-        pt1.x -= 50.0;
-        pt1.y -= 50.0;
-        pt2.x += 50.0;
-        pt2.y += 50.0;
+        auto rect = cv::boundingRect(result);
+        CGRect cgRect = CGRectMake(rect.x, rect.y, 360, 360);
+        [cgRects addObject:[NSValue valueWithCGRect:cgRect]];
         
-        if (pt1.x < 0.0) {pt1.x = 0.0;}
-        if (pt1.y < 0.0) {pt1.y = 0.0;}
-        if (pt2.x > width) {pt2.x = width - 0.1;}
-        if (pt2.y > height) {pt2.y = height - 0.1;}
-        
-        return rect = CGRectMake(pt1.x, pt1.y,pt2.x - pt1.x, pt2.y - pt1.y);
     }
+    return [NSArray arrayWithArray:cgRects];
     
-    return CGRectMake(0.0, 0.0, 0.0, 0.0);
-    
+//    cv::Mat difff;
+//    [self morphologyExWithInput:diff output:difff];
+//
+//    int diff_cnt = [self countNonZeroWithMat:difff];
+//    CGRect rect;
+//
+//    if (diff_cnt > max_diff) {
+//        NSArray<NSValue *> *nzero = [self nonZeroIndicesFromArray: difff];
+//        CGPoint pt1 = CGPointMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT));
+//        CGPoint pt2 = CGPointMake(CGFloat(0), CGFloat(0));
+//        for (NSValue *value in nzero) {
+//            CGPoint point = [value CGPointValue];
+//            pt1.x = MIN(pt1.x, point.x);
+//            pt1.y = MIN(pt1.y, point.y);
+//            pt2.x = MAX(pt2.x, point.x);
+//            pt2.y = MAX(pt2.y, point.y);
+//        }
+//        pt1.x -= 50.0;
+//        pt1.y -= 50.0;
+//        pt2.x += 50.0;
+//        pt2.y += 50.0;
+//
+//        if (pt1.x < 0.0) {pt1.x = 0.0;}
+//        if (pt1.y < 0.0) {pt1.y = 0.0;}
+//        if (pt2.x > width) {pt2.x = width - 0.1;}
+//        if (pt2.y > height) {pt2.y = height - 0.1;}
+//
+//        return rect = CGRectMake(pt1.x, pt1.y,pt2.x - pt1.x, pt2.y - pt1.y);
+//    }
+//
 }
 
 - (void)morphologyExWithInput:(cv::Mat)input output:(cv::Mat &)output {

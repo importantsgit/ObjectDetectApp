@@ -32,10 +32,23 @@ class VideoView: UIView {
         
         return imageView
     }()
+    
+    var image1: UIImageView = {
+        var imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
+    
+    var image2: UIImageView = {
+        var imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
 
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -46,11 +59,17 @@ class VideoView: UIView {
 extension VideoView {
     func setupLayer() {
         self.backgroundColor = .black
+        playerLayer.frame = self.bounds
         self.layer.addSublayer(playerLayer)
-        playerLayer.frame = self.frame
-        playerLayer.videoGravity = .resizeAspectFill
+        playerLayer.videoGravity = .resize
         
-        [imageView].forEach{
+        setupLayout()
+        
+
+    }
+    
+    func setupLayout() {
+        [imageView, image2].forEach{
             self.addSubview($0)
         }
         
@@ -58,21 +77,21 @@ extension VideoView {
             $0.width.height.equalTo(160)
             $0.top.left.equalToSuperview().inset(16)
         }
+        
+        image2.snp.makeConstraints{
+            $0.width.height.equalTo(160)
+            $0.top.equalToSuperview()
+            $0.left.equalTo(imageView.snp.right)
+        }
     }
     
     //MARK: - setTimer
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 2.4, repeats: true, block: {[weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true, block: {[weak self] _ in
             guard let self = self else {return}
 
             if Consts.consts.IS_DEBUG {
                 if Consts.consts.IS_MOTIONDETECT {
-                    
-//                    var arr = self.motionDetection.test()
-//                    self.imageView.image = arr[0]
-//                    self.imageView2.image = arr[1]
-//                    self.imageView3.image = arr[2]
-                    
                     guard let image = self.motionDetection.detectingImage() else {return}
                     self.imageView.image = image
                 }
@@ -119,12 +138,14 @@ extension VideoView {
     func changePlayItem(url: URL) {
         stopRepeatTimer()
         removePeriodicTimeObserver()
+        self.playerLayer.player = nil
+        self.player = nil
         let playerItem = AVPlayerItem(url: url)
         let otherPlayer = AVPlayer(playerItem: playerItem)
-        self.player = nil
         self.player = otherPlayer
-        self.playerLayer.player = nil
-        self.playerLayer.player = self.player
+        self.playerLayer.player = player
+        
+        //FIXME: replaceCurrentItemWithPlayer 수정
     }
     
     func getImage() {
@@ -139,19 +160,19 @@ extension VideoView {
             guard let self = self,
                   let cgImage = cgImage else { return }
             let image = UIImage(cgImage: cgImage, scale: 1.0, orientation: .up)
-            UIGraphicsBeginImageContext(CGSize(width: image.size.width/2, height: image.size.height/2))
-            image.draw(in: CGRect(x: 0, y: 0, width: image.size.width/2, height: image.size.height/2))
+            UIGraphicsBeginImageContext(CGSize(width: image.size.width , height: image.size.height))
+            image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
             let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
-
+            
             self.motionDetection.inqueue(image: resizedImage)
         }
     }
 
-    
+    // 시간 관찰
     func addPeriodicTimeObserver() {
         let timeScale = CMTimeScale(NSEC_PER_SEC)
-        let time = CMTime(seconds: 0.8, preferredTimescale: timeScale)
+        let time = CMTime(seconds: 1.0, preferredTimescale: timeScale)
         
         timeObserverToken = player?.addPeriodicTimeObserver(forInterval: time, queue: .global(), using: { [weak self] time in
             guard let self = self else {return}
@@ -159,6 +180,7 @@ extension VideoView {
         })
     }
     
+    // 이전에 등록된 시간 추가 혹은 시간 경계 관찰자를 취소
     func removePeriodicTimeObserver() {
         if let timeObserverToken = timeObserverToken {
             player?.removeTimeObserver(timeObserverToken)

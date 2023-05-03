@@ -15,7 +15,7 @@ class VideoViewController: OBViewController {
         var pickerConfiguration = PHPickerConfiguration()
         pickerConfiguration.filter = .any(of: [.videos])
         pickerConfiguration.selectionLimit = 1
-        pickerConfiguration.selection = .ordered
+        pickerConfiguration.selection = .default
         
         let picker = PHPickerViewController(configuration: pickerConfiguration)
         picker.delegate = self
@@ -80,9 +80,7 @@ extension VideoViewController {
         [containView, titleView, button, pickerButton].forEach{
             self.view.addSubview($0)
         }
-        
 
-        
         button.snp.makeConstraints{
             $0.width.height.equalTo(64)
             $0.centerX.equalToSuperview()
@@ -144,6 +142,7 @@ extension VideoViewController: PHPickerViewControllerDelegate{
                     self.containView.setURL(url: url)
                 }
             }
+            
         }
     }
 }

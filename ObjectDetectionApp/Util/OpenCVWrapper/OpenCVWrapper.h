@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OpenCVWrapper : NSObject
 
-- (CGRect)detectMotion:(NSArray<UIImage *> *)images;
+- (NSArray<NSValue *> *)detectMotion:(NSArray<UIImage *> *)images;
 
 @end
 

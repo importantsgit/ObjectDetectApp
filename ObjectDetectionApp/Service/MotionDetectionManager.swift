@@ -38,16 +38,27 @@ class MotionDetectionManager {
             guard let image1 = imageQueue[0],
                   let image2 = imageQueue[1],
                   let image3 = imageQueue[2] else {CLog("images are not exist");return nil}
-            let rect = openCVWrapper.detectMotion([image1, image2, image3])
-            if rect.width != 0.0 {
-                let objectBounds = rect
-                let image = cropRect(objectBounds ,image: image3)
+            let rects = openCVWrapper.detectMotion([image1, image2, image3])
+            if !rects.isEmpty {
+                let objectBounds = rects.first!
+                let image = cropRect(objectBounds.cgRectValue ,image: image3)
                 return image
             }
-            print(rect)
         }
         return nil
     }
+    
+    public func detectingRect()->[NSValue] {
+        if queueCount == 3 {
+            guard let image1 = imageQueue[0],
+                  let image2 = imageQueue[1],
+                  let image3 = imageQueue[2] else {CLog("images are not exist");return []}
+            let rects = openCVWrapper.detectMotion([image1, image2, image3])
+            return rects
+        }
+        return []
+    }
+    
     
     private func cropRect(_ boundingBox: CGRect, image: UIImage) -> UIImage {
         let imageRef = image.cgImage!.cropping(to: boundingBox)

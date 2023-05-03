@@ -31,6 +31,30 @@ class StreamingView: UIView {
         return imageView
     }()
     
+    var imageView2: UIImageView = {
+        var imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
+        
+        imageView.layer.cornerRadius = 4.0
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.7
+        return imageView
+    }()
+    
+    var imageView3: UIImageView = {
+        var imageView = UIImageView()
+        imageView.contentMode = .scaleToFill
+        imageView.backgroundColor = .black
+        imageView.clipsToBounds = true
+        
+        imageView.layer.cornerRadius = 4.0
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.7
+        return imageView
+    }()
+    
     var classification = Classification()
     
     var bufferSize: CGSize = .zero
@@ -51,6 +75,7 @@ class StreamingView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViews()
         setupCameraLiveView()
         poseName = dogPoseModel.model.modelDescription.classLabels as! [String]
         className = dogClassModel.model.modelDescription.classLabels as! [String]
@@ -71,13 +96,32 @@ extension StreamingView {
         rootLayer.addSublayer(streamingLayer)
         setupdetectionOverlay()
         
-        self.addSubview(imageView)
+
+        updateLayerGeometry()
+    }
+    
+    func setupViews(){
+        [imageView,imageView2,imageView3].forEach{
+            self.addSubview($0)
+        }
+
         imageView.snp.makeConstraints{
             $0.width.height.equalTo(160)
             $0.top.left.equalToSuperview().inset(16)
         }
         
-        updateLayerGeometry()
+        imageView2.snp.makeConstraints{
+            $0.width.height.equalTo(160)
+            $0.top.equalTo(imageView.snp.bottom).offset(16)
+            $0.left.equalToSuperview().inset(16)
+        }
+        
+        imageView3.snp.makeConstraints{
+            $0.width.height.equalTo(160)
+            $0.top.equalTo(imageView2.snp.bottom).offset(16)
+            $0.left.equalToSuperview().inset(16)
+        }
+        
     }
     
     func setupdetectionOverlay() {
@@ -100,13 +144,22 @@ extension StreamingView {
 
             if Consts.consts.IS_DEBUG {
                 if Consts.consts.IS_MOTIONDETECT {
-                    guard let motionDetection = self.motionDetection,
-                          let image = motionDetection.detectingImage() else {
-                        self.imageView.layer.opacity = 0.3
-                        return
+//                    guard let motionDetection = self.motionDetection,
+//                          let image = motionDetection.detectingImage() else {
+//                        self.imageView.layer.opacity = 0.3
+//                        return
+//                    }
+//                    self.imageView.layer.opacity = 1.0
+//                    self.imageView.image = image
+                    if let motionDetection = self.motionDetection {
+                        let rects = motionDetection.detectingRect()
+                        if !rects.isEmpty {
+                            self.detectionOverlay.sublayers = nil
+                            rects.forEach{
+                                self.drawMotion($0.cgRectValue)
+                            }
+                        }
                     }
-                    self.imageView.layer.opacity = 1.0
-                    self.imageView.image = image
                 } else{
                     guard let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70) else {return}
                     if !output.confidenceShapedArray.isEmpty {
@@ -244,6 +297,13 @@ extension StreamingView {
         return newImage
     }
     
+    func drawMotion(_ rect: CGRect){
+       
+        let shapeLayer = self.createRoundedRectLayerWithBounds(rect)
+        detectionOverlay.addSublayer(shapeLayer)
+        self.updateLayerGeometry()
+    }
+    
     func drawVisionRequestResults(_ objectObservation: dogClassOutput,_ image: CVPixelBuffer) {
         guard let detectionOverlay = self.detectionOverlay else {return}
         CATransaction.begin()
@@ -331,7 +391,7 @@ extension StreamingView {
         shapeLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
         shapeLayer.name = "Found Object"
         shapeLayer.borderColor = UIColor.systemRed.cgColor
-        shapeLayer.borderWidth = 1
+        shapeLayer.borderWidth = 4
         shapeLayer.cornerRadius = 7
         
         return shapeLayer
@@ -345,10 +405,10 @@ extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
 
         let ciImage = CIImage(cvPixelBuffer: imageBuffer)
-        let image = UIImage(ciImage: ciImage, scale: 1.0, orientation: .right)
+        let image = UIImage(ciImage: ciImage, scale: 1.0, orientation: .up)
 
-        UIGraphicsBeginImageContext(CGSize(width: bufferSize.width/2, height: bufferSize.height/2))
-        image.draw(in: CGRect(x: 0, y: 0, width: bufferSize.width/2, height: bufferSize.height/2))
+        UIGraphicsBeginImageContext(CGSize(width: bufferSize.width, height: bufferSize.height))
+        image.draw(in: CGRect(x: 0, y: 0, width: bufferSize.width, height: bufferSize.height))
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
