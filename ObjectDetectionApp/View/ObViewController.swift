@@ -52,4 +52,22 @@ extension OBViewController {
         }
     }
     
+    func presentingView(vc: OBViewController) {
+        let vc = vc
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    
+    func changingRootView(vc: OBViewController, time: Int) {
+        let time = time
+        
+        let DelayTime = DispatchTimeInterval.seconds(time)
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+DelayTime) {
+                sceneDelegate.changeRootVC(vc, animated: true)
+            }
+        }
+    }
+    
 }

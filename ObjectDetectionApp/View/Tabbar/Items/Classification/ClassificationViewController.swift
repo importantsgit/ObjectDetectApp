@@ -1,14 +1,14 @@
 //
-//  StreamingViewController.swift
+//  ClassificationViewController.swift
 //  ObjectDetectionApp
 //
-//  Created by 이재훈 on 2023/04/10.
+//  Created by 이재훈 on 2023/05/04.
 //
 
 import UIKit
 import SnapKit
 
-class StreamingViewController: OBViewController {
+class ClassificationViewController: OBViewController {
     
     var titleView: UIView = {
         let uiView = UIView()
@@ -19,7 +19,7 @@ class StreamingViewController: OBViewController {
     var titleLabel: UILabel = {
         var label = UILabel()
         label.textColor = .white
-        label.text = "스트리밍"
+        label.text = "강아지 분류"
         label.font = .systemFont(ofSize: 18, weight: .bold)
         
         return label
@@ -33,26 +33,25 @@ class StreamingViewController: OBViewController {
         return button
     }()
     
-    var containView = StreamingView()
+    var containView = ClassificationView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
     }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         containView.setupLayer()
-
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("tearDownAVCapture")
+        stop()
     }
 }
 
-extension StreamingViewController {
+extension ClassificationViewController {
     private func setupLayout() {
         [containView, titleView, button].forEach{
             self.view.addSubview($0)
@@ -85,16 +84,18 @@ extension StreamingViewController {
     }
     
     @objc func buttonTapped() {
-        
-        if button.isSelected {
-            button.isSelected = false
-            containView.stopCaptureSession()
-            containView.stopRepeatTimer()
-        } else {
-            button.isSelected = true
-            containView.startCaptureSession()
-            containView.startTimer()
-            
-        }
+        button.isSelected ? stop() : play()
+    }
+    
+    func stop(){
+        button.isSelected = false
+        containView.stopCaptureSession()
+        containView.stopRepeatTimer()
+    }
+    
+    func play(){
+        button.isSelected = true
+        containView.startCaptureSession()
+        containView.startTimer()
     }
 }

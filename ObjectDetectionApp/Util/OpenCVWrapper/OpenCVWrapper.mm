@@ -14,86 +14,104 @@
 //Here we can use C++ code
 
 - (NSArray<NSValue *> *)detectMotion:(NSArray<UIImage *> *)images {
+    //이진화 사용될 임계값
     int thresh = 25;
+    //thresh 값 이상인 차이 값 중 가장 큰 값
     int max_diff = 5;
     int width = images[0].size.width;
     int height = images[0].size.height;
     
-    cv::Mat aImageMat, bImageMat, cImageMat;
+    cv::Mat bImageMat, cImageMat;
     
-    UIImageToMat(images[0].copy, aImageMat);
     UIImageToMat(images[1].copy, bImageMat);
     UIImageToMat(images[2].copy, cImageMat);
     
-    cv::Mat aGray, bGray, cGray;
+    cv::Mat bGray, cGray;
     
-    cv::cvtColor(aImageMat, aGray, cv::COLOR_BGR2GRAY);
     cv::cvtColor(bImageMat, bGray, cv::COLOR_BGR2GRAY);
     cv::cvtColor(cImageMat, cGray, cv::COLOR_BGR2GRAY);
     
-    cv::Mat diff1, diff2;
+    cv::Mat diff2;
     
-    cv::absdiff(aGray, bGray, diff1);
     cv::absdiff(bGray, cGray, diff2);
     
-    cv::Mat diff1_t, diff2_t, dst, diff;
-    cv::Mat kernel = cv::Mat::ones(45, 45, CV_8U);
+    cv::Mat diff2_t, dst, diff;
+    cv::Mat kernel = cv::Mat::ones(100, 100, CV_8U);
 
-    cv::dilate(diff1, dst, kernel);
+    // 팽창한 결과 (작은 차이를 크게)
+    cv::dilate(diff2, dst, kernel);
     
-    cv::threshold(dst, diff1_t, thresh, max_diff, cv::THRESH_BINARY);
-    cv::threshold(diff2, diff2_t, thresh, max_diff, cv::THRESH_BINARY);
-    
-    cv::bitwise_and(diff1_t, diff2_t, diff);
+    // 외부 윤곽선을 검출 -> 이외의 작은 영역은 무시, 찾은 두 개 이항의 윤곽선이 반환
+    cv::threshold(dst, diff2_t, thresh, max_diff, cv::THRESH_BINARY);
     
     std::vector<cv::Mat> results;
     
-    cv::findContours(diff1_t, results, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    cv::findContours(diff2_t, results, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
     
     NSMutableArray *cgRects = [NSMutableArray array];
+    std::vector<cv::Rect> rectList;
+
     for (const auto& result: results) {
         auto area = cv::contourArea(result);
-        NSLog(@"%f", area);
-        if (area < 20000) {
+        if (area < 2000) {
             continue;
         }
         auto rect = cv::boundingRect(result);
-        CGRect cgRect = CGRectMake(rect.x, rect.y, 360, 360);
-        [cgRects addObject:[NSValue valueWithCGRect:cgRect]];
+        rectList.push_back(rect);
         
     }
+    NSLog(@"%lu size",(unsigned long)rectList.size());
+    
+    //cv::groupRectangles(rectList, 1, 0.1);
+    std::vector<int> indices;
+    std::vector<float> scores;
+    cv::dnn::NMSBoxes(rectList, scores, 0.2f, 1, indices);
+    
+    NSLog(@"%lu size",(unsigned long)rectList.size());
+    
+    for (int i = 0; i < indices.size(); i++) {
+        cv::Rect rect = rectList[indices[i]];
+        NSLog(@"%d %d %d %d",rect.x, rect.y, rect.width, rect.height);
+        CGRect cgRect = CGRectMake(rect.x, rect.y, rect.width, rect.height);
+        [cgRects addObject:[NSValue valueWithCGRect:cgRect]];
+    }
+    NSLog(@"%lu",(unsigned long)cgRects.count);
+
     return [NSArray arrayWithArray:cgRects];
     
-//    cv::Mat difff;
-//    [self morphologyExWithInput:diff output:difff];
-//
-//    int diff_cnt = [self countNonZeroWithMat:difff];
-//    CGRect rect;
-//
-//    if (diff_cnt > max_diff) {
-//        NSArray<NSValue *> *nzero = [self nonZeroIndicesFromArray: difff];
-//        CGPoint pt1 = CGPointMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT));
-//        CGPoint pt2 = CGPointMake(CGFloat(0), CGFloat(0));
-//        for (NSValue *value in nzero) {
-//            CGPoint point = [value CGPointValue];
-//            pt1.x = MIN(pt1.x, point.x);
-//            pt1.y = MIN(pt1.y, point.y);
-//            pt2.x = MAX(pt2.x, point.x);
-//            pt2.y = MAX(pt2.y, point.y);
-//        }
-//        pt1.x -= 50.0;
-//        pt1.y -= 50.0;
-//        pt2.x += 50.0;
-//        pt2.y += 50.0;
-//
-//        if (pt1.x < 0.0) {pt1.x = 0.0;}
-//        if (pt1.y < 0.0) {pt1.y = 0.0;}
-//        if (pt2.x > width) {pt2.x = width - 0.1;}
-//        if (pt2.y > height) {pt2.y = height - 0.1;}
-//
-//        return rect = CGRectMake(pt1.x, pt1.y,pt2.x - pt1.x, pt2.y - pt1.y);
-//    }
-//
+    if (false) {
+        
+    }
+    cv::Mat difff;
+    [self morphologyExWithInput:diff output:difff];
+
+    int diff_cnt = [self countNonZeroWithMat:difff];
+    CGRect rect;
+
+    if (diff_cnt > max_diff) {
+        NSArray<NSValue *> *nzero = [self nonZeroIndicesFromArray: difff];
+        CGPoint pt1 = CGPointMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT));
+        CGPoint pt2 = CGPointMake(CGFloat(0), CGFloat(0));
+        for (NSValue *value in nzero) {
+            CGPoint point = [value CGPointValue];
+            pt1.x = MIN(pt1.x, point.x);
+            pt1.y = MIN(pt1.y, point.y);
+            pt2.x = MAX(pt2.x, point.x);
+            pt2.y = MAX(pt2.y, point.y);
+        }
+        pt1.x -= 50.0;
+        pt1.y -= 50.0;
+        pt2.x += 50.0;
+        pt2.y += 50.0;
+
+        if (pt1.x < 0.0) {pt1.x = 0.0;}
+        if (pt1.y < 0.0) {pt1.y = 0.0;}
+        if (pt2.x > width) {pt2.x = width - 0.1;}
+        if (pt2.y > height) {pt2.y = height - 0.1;}
+
+        //return rect = CGRectMake(pt1.x, pt1.y,pt2.x - pt1.x, pt2.y - pt1.y);
+    }
+
 }
 
 - (void)morphologyExWithInput:(cv::Mat)input output:(cv::Mat &)output {

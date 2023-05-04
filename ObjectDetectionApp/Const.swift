@@ -14,7 +14,7 @@ open class Consts {
     private init(){}
     
     let IS_DEBUG = true
-    let IS_MOTIONDETECT = true
+    let IS_MOTIONDETECT = false
     
     let AES_KEY   = "26183260540306855921652972530618"
     

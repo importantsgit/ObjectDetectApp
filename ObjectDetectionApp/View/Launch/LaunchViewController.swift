@@ -15,7 +15,7 @@ class LaunchViewController: OBViewController {
     
     let titleLabel: UILabel = {
         var label = UILabel()
-        label.text = "Streaming"
+        label.text = "DetectionApp"
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textColor = .white
     
@@ -24,8 +24,7 @@ class LaunchViewController: OBViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if Consts.consts.IS_DEBUG == true {
+        if !Consts.consts.IS_DEBUG {
             let tabbarVC = TabbarViewController()
             if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                 DispatchQueue.main.async {
@@ -34,7 +33,7 @@ class LaunchViewController: OBViewController {
             }
         } else {
             self.setupLayout()
-            self.callToModelForUIUpdate()
+            self.checkPremissions()
         }
     }
 }
@@ -58,33 +57,12 @@ extension LaunchViewController {
     
     func checkPremissions() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .notDetermined:
-            AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
-                guard let self = self else {return}
-                self.changeView()
-                if !granted {
-                    self.showPermissionsAlert()
-                }
-            }
-        case .denied, .restricted:
-            showPermissionsAlert()
+        case .authorized:
+            CLog("카메라권한허가확인")
+            self.changingRootView(vc: OnBoardingViewController(), time: 3)
         default:
-            changeView()
-        }
-    }
-    
-    private func showPermissionsAlert() {
-        showAlert(
-            withTitle: "카메라 접근",
-            message: "유저의 카메라를 사용하기 위해 설정에서 접근권한을 설정하셔야 합니다.")
-    }
-    
-    func changeView() {
-        let tabbarVC = TabbarViewController()
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+5) {
-                sceneDelegate.changeRootVC(tabbarVC, animated: true)
-            }
+            CLog("카메라권한허가요청")
+            self.changingRootView(vc: PermissionViewController(), time: 3)
         }
     }
 }

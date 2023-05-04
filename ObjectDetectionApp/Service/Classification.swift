@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 class Classification {
     var queue = Dictionary<DogName, [DogStatus]>()
     private var lastStatus: DogStatus = .none

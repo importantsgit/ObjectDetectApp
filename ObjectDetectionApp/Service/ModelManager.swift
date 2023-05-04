@@ -11,6 +11,4 @@ import CoreML
 class ModelManager {
     let mlModel = try! dogClass(configuration: MLModelConfiguration())
     let dogposeModel = try! dogPose(configuration: MLModelConfiguration())
-    
-    
 }

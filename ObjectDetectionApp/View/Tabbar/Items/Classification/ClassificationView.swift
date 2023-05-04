@@ -1,8 +1,8 @@
 //
-//  Streaming2View.swift
+//  ClassificationView.swift
 //  ObjectDetectionApp
 //
-//  Created by 이재훈 on 2023/04/12.
+//  Created by 이재훈 on 2023/05/04.
 //
 
 import UIKit
@@ -11,50 +11,12 @@ import AVFoundation
 import CoreML
 import Vision
 
-class StreamingView: UIView {
+class ClassificationView: UIView {
     var dogPoseModel = try! dogPose(configuration: MLModelConfiguration())
     var poseName = [String]()
     var dogClassModel = try! dogClass(configuration: MLModelConfiguration())
     var className = [String]()
-    
-    var motionDetection: MotionDetectionManager?
-    
-    var imageView: UIImageView = {
-        var imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.backgroundColor = .black
-        imageView.clipsToBounds = true
-        
-        imageView.layer.cornerRadius = 4.0
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOpacity = 0.7
-        return imageView
-    }()
-    
-    var imageView2: UIImageView = {
-        var imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.backgroundColor = .black
-        imageView.clipsToBounds = true
-        
-        imageView.layer.cornerRadius = 4.0
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOpacity = 0.7
-        return imageView
-    }()
-    
-    var imageView3: UIImageView = {
-        var imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
-        imageView.backgroundColor = .black
-        imageView.clipsToBounds = true
-        
-        imageView.layer.cornerRadius = 4.0
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOpacity = 0.7
-        return imageView
-    }()
-    
+
     var classification = Classification()
     
     var bufferSize: CGSize = .zero
@@ -75,7 +37,6 @@ class StreamingView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
         setupCameraLiveView()
         poseName = dogPoseModel.model.modelDescription.classLabels as! [String]
         className = dogClassModel.model.modelDescription.classLabels as! [String]
@@ -86,7 +47,7 @@ class StreamingView: UIView {
     }
 }
 
-extension StreamingView {
+extension ClassificationView {
     
     //MARK: - setupLayout
     
@@ -98,30 +59,6 @@ extension StreamingView {
         
 
         updateLayerGeometry()
-    }
-    
-    func setupViews(){
-        [imageView,imageView2,imageView3].forEach{
-            self.addSubview($0)
-        }
-
-        imageView.snp.makeConstraints{
-            $0.width.height.equalTo(160)
-            $0.top.left.equalToSuperview().inset(16)
-        }
-        
-        imageView2.snp.makeConstraints{
-            $0.width.height.equalTo(160)
-            $0.top.equalTo(imageView.snp.bottom).offset(16)
-            $0.left.equalToSuperview().inset(16)
-        }
-        
-        imageView3.snp.makeConstraints{
-            $0.width.height.equalTo(160)
-            $0.top.equalTo(imageView2.snp.bottom).offset(16)
-            $0.left.equalToSuperview().inset(16)
-        }
-        
     }
     
     func setupdetectionOverlay() {
@@ -136,43 +73,20 @@ extension StreamingView {
     }
     
     func startTimer() {
-        motionDetection = MotionDetectionManager()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.5 , repeats: true, block: {[weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 0.1 , repeats: true, block: {[weak self] _ in
             guard let self = self,
                   let pixelBuffer = self.pixelBuffer
             else {return}
-
-            if Consts.consts.IS_DEBUG {
-                if Consts.consts.IS_MOTIONDETECT {
-//                    guard let motionDetection = self.motionDetection,
-//                          let image = motionDetection.detectingImage() else {
-//                        self.imageView.layer.opacity = 0.3
-//                        return
-//                    }
-//                    self.imageView.layer.opacity = 1.0
-//                    self.imageView.image = image
-                    if let motionDetection = self.motionDetection {
-                        let rects = motionDetection.detectingRect()
-                        if !rects.isEmpty {
-                            self.detectionOverlay.sublayers = nil
-                            rects.forEach{
-                                self.drawMotion($0.cgRectValue)
-                            }
-                        }
-                    }
-                } else{
-                    guard let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70) else {return}
-                    if !output.confidenceShapedArray.isEmpty {
-                        DispatchQueue.main.async(execute: {
-                            self.drawVisionRequestResults(output, pixelBuffer)
-                        })
-                    } else {
-                        DispatchQueue.main.async {
-                            self.detectionOverlay.sublayers = nil
-                        }
-                    }
+                    
+            guard let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70) else {return}
+            if !output.confidenceShapedArray.isEmpty {
+                DispatchQueue.main.async(execute: {
+                    self.drawVisionRequestResults(output, pixelBuffer)
+                })
+            } else {
+                DispatchQueue.main.async {
+                    self.detectionOverlay.sublayers = nil
                 }
-
             }
         })
     }
@@ -199,7 +113,7 @@ extension StreamingView {
         }
         
         caputureSession.beginConfiguration()
-        caputureSession.sessionPreset = .hd1280x720
+        caputureSession.sessionPreset = .vga640x480
         
         guard caputureSession.canAddInput(deviceInput) else {
             CLog("세션에 input을 추가하지 못했습니다")
@@ -259,9 +173,9 @@ extension StreamingView {
         self.detectionOverlay.sublayers = nil
     }
     
-    func tearDownAVCaputure() {
+    func tearDownAVCapture() {
         streamingLayer.removeFromSuperlayer()
-        streamingLayer.sublayers = nil
+        streamingLayer.backgroundColor = UIColor.black.cgColor
     }
     
     //MARK: - change image to CVPixelBuffer
@@ -297,13 +211,6 @@ extension StreamingView {
         return newImage
     }
     
-    func drawMotion(_ rect: CGRect){
-       
-        let shapeLayer = self.createRoundedRectLayerWithBounds(rect)
-        detectionOverlay.addSublayer(shapeLayer)
-        self.updateLayerGeometry()
-    }
-    
     func drawVisionRequestResults(_ objectObservation: dogClassOutput,_ image: CVPixelBuffer) {
         guard let detectionOverlay = self.detectionOverlay else {return}
         CATransaction.begin()
@@ -326,18 +233,12 @@ extension StreamingView {
             let objectBounds = VNImageRectForNormalizedRect(rect, Int(bufferSize.width), Int(bufferSize.height))
             print(objectBounds)
 
-            if Consts.consts.IS_DEBUG {
-                let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
-                let textLayer = self.createTextSubLayerInBounds(objectBounds,
-                                                                    identifier: firstName,
-                                                                    confidence: classConfidence
-                                                                )
-                shapeLayer.addSublayer(textLayer)
-                detectionOverlay.addSublayer(shapeLayer)
-            }
+            let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
+            let textLayer = self.createTextSubLayerInBounds(
+                objectBounds,identifier: firstName, confidence: classConfidence)
+            shapeLayer.addSublayer(textLayer)
+            detectionOverlay.addSublayer(shapeLayer)
             self.updateLayerGeometry()
-            
-            
         }
 
         CATransaction.commit()
@@ -367,14 +268,12 @@ extension StreamingView {
         
         let textLayer = CATextLayer()
         
-        let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\nConfidence: %2.f", confidence))
-        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
+        let formattedString = NSMutableAttributedString(string: String(format: "\(identifier), %2.f%%", confidence))
+        let largeFont = UIFont(name: "Helvetica", size: 12.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: identifier.count))
         textLayer.string = formattedString
- 
-        
-        textLayer.bounds = CGRect(x: 0, y: 0, width: bounds.width, height: 28)
-        textLayer.position = CGPoint(x: bounds.minX, y: bounds.midY)
+        textLayer.bounds = CGRect(x: 0, y: 0, width: 120, height: 20)
+        textLayer.position = CGPoint(x: bounds.minX-10, y: bounds.midY)
         textLayer.shadowOpacity = 0.3
         textLayer.shadowOffset = CGSize(width: 2, height: 2)
         textLayer.foregroundColor = UIColor.systemRed.cgColor
@@ -391,33 +290,33 @@ extension StreamingView {
         shapeLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
         shapeLayer.name = "Found Object"
         shapeLayer.borderColor = UIColor.systemRed.cgColor
-        shapeLayer.borderWidth = 4
+        shapeLayer.borderWidth = 2
         shapeLayer.cornerRadius = 7
         
         return shapeLayer
     }
 }
 
-
-
-extension StreamingView: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension ClassificationView: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {return}
 
         let ciImage = CIImage(cvPixelBuffer: imageBuffer)
         let image = UIImage(ciImage: ciImage, scale: 1.0, orientation: .up)
 
-        UIGraphicsBeginImageContext(CGSize(width: bufferSize.width, height: bufferSize.height))
-        image.draw(in: CGRect(x: 0, y: 0, width: bufferSize.width, height: bufferSize.height))
+        let width: CGFloat = 640.0
+        let height: CGFloat = width
+
+        UIGraphicsBeginImageContext(CGSize(width: width, height: height))
+        image.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+
         let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         let pixelBuffer = buffer(from: resizedImage)
         
-        guard let motionDetection = motionDetection else {return}
-        motionDetection.inqueue(image: resizedImage)
-        
         guard let pixelBuffer = pixelBuffer else {return}
         self.pixelBuffer = pixelBuffer
+        
     }
 }

@@ -37,3 +37,14 @@ public func CLog(_ message: String?, functionName: String = #function, fileName:
         }
     }
 }
+
+public func FontCheck() {
+    UIFont.familyNames.sorted().forEach { familyName in
+        print("*** \(familyName) ***")
+        UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+            print("\(fontName)")
+        }
+        print("---------------------")
+    }
+}
+

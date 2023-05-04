@@ -48,13 +48,28 @@ class MotionDetectionManager {
         return nil
     }
     
-    public func detectingRect()->[NSValue] {
+    public func getDetectValue()->[NSValue] {
         if queueCount == 3 {
             guard let image1 = imageQueue[0],
                   let image2 = imageQueue[1],
                   let image3 = imageQueue[2] else {CLog("images are not exist");return []}
-            let rects = openCVWrapper.detectMotion([image1, image2, image3])
-            return rects
+            return openCVWrapper.detectMotion([image1, image2, image3])
+        }
+        return []
+    }
+    
+    public func getDetectRect()->[CGRect] {
+        if queueCount == 3 {
+            guard let image1 = imageQueue[0],
+                  let image2 = imageQueue[1],
+                  let image3 = imageQueue[2] else {CLog("images are not exist");return []}
+            let rects = openCVWrapper.detectMotion([image1, image2, image3]).map{$0.cgRectValue}
+            
+            var resultArrayList = rects
+            if (resultArrayList.count > 1) {
+                resultArrayList = OBUtils.shared.joinOverlapArea(areas: rects, width: image3.size.width, height: image3.size.height)
+            }
+            return resultArrayList
         }
         return []
     }

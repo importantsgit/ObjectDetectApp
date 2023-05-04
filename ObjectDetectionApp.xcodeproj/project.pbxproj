@@ -27,16 +27,24 @@
 		7BB75D7029E3FAE9001DA941 /* PreferenceDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D6F29E3FAE9001DA941 /* PreferenceDataUtils.swift */; };
 		7BB75D7229E3FDDA001DA941 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D7129E3FDDA001DA941 /* LaunchViewController.swift */; };
 		7BB75D7429E40588001DA941 /* TabbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D7329E40588001DA941 /* TabbarViewController.swift */; };
-		7BB75D7629E405C3001DA941 /* StreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D7529E405C3001DA941 /* StreamingViewController.swift */; };
+		7BB75D7629E405C3001DA941 /* MotionDetectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D7529E405C3001DA941 /* MotionDetectionViewController.swift */; };
 		7BB75D7829E405CF001DA941 /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D7729E405CF001DA941 /* VideoViewController.swift */; };
 		7BC3AEBF29E64D9B00376DA8 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AEBE29E64D9B00376DA8 /* VideoView.swift */; };
-		7BC3AEC529E66E6F00376DA8 /* StreamingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AEC429E66E6F00376DA8 /* StreamingView.swift */; };
+		7BC3AEC529E66E6F00376DA8 /* MotionDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AEC429E66E6F00376DA8 /* MotionDetectionView.swift */; };
 		7BC6EFB329E542C800FD2512 /* dogPose.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB229E542C800FD2512 /* dogPose.mlmodel */; };
-		7BC6EFB529E54B9D00FD2512 /* Streaming1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB429E54B9D00FD2512 /* Streaming1View.swift */; };
 		7BC6EFB729E54C9C00FD2512 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */; };
 		7BC6EFBA29E54F0100FD2512 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB929E54F0100FD2512 /* UIButton.swift */; };
 		7BE5308329EE17D100AF84F4 /* OpenCVWrapper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7BE5308229EE17D100AF84F4 /* OpenCVWrapper.mm */; };
 		7BE5308729EE2BCA00AF84F4 /* MotionDetectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BE5308629EE2BCA00AF84F4 /* MotionDetectionManager.swift */; };
+		7BF5E58B2A03386D00BA8BE3 /* ClassificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E58A2A03386D00BA8BE3 /* ClassificationViewController.swift */; };
+		7BF5E58D2A0338D900BA8BE3 /* ClassificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E58C2A0338D900BA8BE3 /* ClassificationView.swift */; };
+		7BF5E58F2A034B5C00BA8BE3 /* OnBoardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E58E2A034B5C00BA8BE3 /* OnBoardingViewController.swift */; };
+		7BF5E5912A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E5902A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift */; };
+		7BF5E5932A034CC300BA8BE3 /* OnBoardSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E5922A034CC300BA8BE3 /* OnBoardSlide.swift */; };
+		7BF5E5992A0363A900BA8BE3 /* camera.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BF5E5982A0363A900BA8BE3 /* camera.json */; };
+		7BF5E59D2A0366AA00BA8BE3 /* dog.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BF5E59C2A0366AA00BA8BE3 /* dog.json */; };
+		7BF5E5A02A0368F300BA8BE3 /* PermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E59F2A0368F300BA8BE3 /* PermissionViewController.swift */; };
+		7BF5E5A22A03693300BA8BE3 /* OBLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E5A12A03693300BA8BE3 /* OBLabel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,12 +70,11 @@
 		7BB75D6F29E3FAE9001DA941 /* PreferenceDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceDataUtils.swift; sourceTree = "<group>"; };
 		7BB75D7129E3FDDA001DA941 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		7BB75D7329E40588001DA941 /* TabbarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewController.swift; sourceTree = "<group>"; };
-		7BB75D7529E405C3001DA941 /* StreamingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingViewController.swift; sourceTree = "<group>"; };
+		7BB75D7529E405C3001DA941 /* MotionDetectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDetectionViewController.swift; sourceTree = "<group>"; };
 		7BB75D7729E405CF001DA941 /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		7BC3AEBE29E64D9B00376DA8 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
-		7BC3AEC429E66E6F00376DA8 /* StreamingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingView.swift; sourceTree = "<group>"; };
+		7BC3AEC429E66E6F00376DA8 /* MotionDetectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDetectionView.swift; sourceTree = "<group>"; };
 		7BC6EFB229E542C800FD2512 /* dogPose.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = dogPose.mlmodel; sourceTree = "<group>"; };
-		7BC6EFB429E54B9D00FD2512 /* Streaming1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Streaming1View.swift; sourceTree = "<group>"; };
 		7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		7BC6EFB929E54F0100FD2512 /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 		7BE5308029EE17D100AF84F4 /* ObjectDetectionApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ObjectDetectionApp-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -75,6 +82,15 @@
 		7BE5308229EE17D100AF84F4 /* OpenCVWrapper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenCVWrapper.mm; sourceTree = "<group>"; };
 		7BE5308529EE1C6D00AF84F4 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		7BE5308629EE2BCA00AF84F4 /* MotionDetectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDetectionManager.swift; sourceTree = "<group>"; };
+		7BF5E58A2A03386D00BA8BE3 /* ClassificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationViewController.swift; sourceTree = "<group>"; };
+		7BF5E58C2A0338D900BA8BE3 /* ClassificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationView.swift; sourceTree = "<group>"; };
+		7BF5E58E2A034B5C00BA8BE3 /* OnBoardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingViewController.swift; sourceTree = "<group>"; };
+		7BF5E5902A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		7BF5E5922A034CC300BA8BE3 /* OnBoardSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardSlide.swift; sourceTree = "<group>"; };
+		7BF5E5982A0363A900BA8BE3 /* camera.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = camera.json; sourceTree = "<group>"; };
+		7BF5E59C2A0366AA00BA8BE3 /* dog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dog.json; sourceTree = "<group>"; };
+		7BF5E59F2A0368F300BA8BE3 /* PermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionViewController.swift; sourceTree = "<group>"; };
+		7BF5E5A12A03693300BA8BE3 /* OBLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBLabel.swift; sourceTree = "<group>"; };
 		800ADAAF954AE3827708B4C0 /* Pods_ObjectDetectionApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObjectDetectionApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB91639BE3AAA633CE107189 /* Pods-ObjectDetectionApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectDetectionApp.release.xcconfig"; path = "Target Support Files/Pods-ObjectDetectionApp/Pods-ObjectDetectionApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,7 +136,8 @@
 		7B74A03529E4F9B8008A20B8 /* Items */ = {
 			isa = PBXGroup;
 			children = (
-				7BC3AEBC29E64D8700376DA8 /* Streaming */,
+				7BF5E5892A03384300BA8BE3 /* Classification */,
+				7BC3AEBC29E64D8700376DA8 /* MotionDetect */,
 				7BC3AEBD29E64D8F00376DA8 /* Video */,
 			);
 			path = Items;
@@ -182,6 +199,7 @@
 				7BB75D5E29E3F777001DA941 /* Launch */,
 				7BB75D5F29E3F78C001DA941 /* Tabbar */,
 				7BC6EFB829E54EE400FD2512 /* UI */,
+				7BF5E5A12A03693300BA8BE3 /* OBLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -191,6 +209,8 @@
 			children = (
 				7BB75D5329E3F6E4001DA941 /* LaunchScreen.storyboard */,
 				7BB75D7129E3FDDA001DA941 /* LaunchViewController.swift */,
+				7BF5E59F2A0368F300BA8BE3 /* PermissionViewController.swift */,
+				7BF5E59E2A0368DC00BA8BE3 /* OnBoarding */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -207,6 +227,8 @@
 		7BB75D6029E3F7A7001DA941 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				7BF5E59C2A0366AA00BA8BE3 /* dog.json */,
+				7BF5E5982A0363A900BA8BE3 /* camera.json */,
 				7BB75D5129E3F6E4001DA941 /* Assets.xcassets */,
 				7BC6EFB229E542C800FD2512 /* dogPose.mlmodel */,
 				7BB75D6229E3F7C0001DA941 /* dogClass.mlmodel */,
@@ -219,6 +241,7 @@
 			children = (
 				7B74A03329E4E2CE008A20B8 /* User.swift */,
 				7B74A03629E4FAD1008A20B8 /* Dog.swift */,
+				7BF5E5922A034CC300BA8BE3 /* OnBoardSlide.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -234,14 +257,13 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		7BC3AEBC29E64D8700376DA8 /* Streaming */ = {
+		7BC3AEBC29E64D8700376DA8 /* MotionDetect */ = {
 			isa = PBXGroup;
 			children = (
-				7BB75D7529E405C3001DA941 /* StreamingViewController.swift */,
-				7BC6EFB429E54B9D00FD2512 /* Streaming1View.swift */,
-				7BC3AEC429E66E6F00376DA8 /* StreamingView.swift */,
+				7BB75D7529E405C3001DA941 /* MotionDetectionViewController.swift */,
+				7BC3AEC429E66E6F00376DA8 /* MotionDetectionView.swift */,
 			);
-			path = Streaming;
+			path = MotionDetect;
 			sourceTree = "<group>";
 		};
 		7BC3AEBD29E64D8F00376DA8 /* Video */ = {
@@ -268,6 +290,24 @@
 				7BE5308229EE17D100AF84F4 /* OpenCVWrapper.mm */,
 			);
 			path = OpenCVWrapper;
+			sourceTree = "<group>";
+		};
+		7BF5E5892A03384300BA8BE3 /* Classification */ = {
+			isa = PBXGroup;
+			children = (
+				7BF5E58A2A03386D00BA8BE3 /* ClassificationViewController.swift */,
+				7BF5E58C2A0338D900BA8BE3 /* ClassificationView.swift */,
+			);
+			path = Classification;
+			sourceTree = "<group>";
+		};
+		7BF5E59E2A0368DC00BA8BE3 /* OnBoarding */ = {
+			isa = PBXGroup;
+			children = (
+				7BF5E58E2A034B5C00BA8BE3 /* OnBoardingViewController.swift */,
+				7BF5E5902A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift */,
+			);
+			path = OnBoarding;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,7 +371,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BF5E5992A0363A900BA8BE3 /* camera.json in Resources */,
 				7BB75D5529E3F6E4001DA941 /* LaunchScreen.storyboard in Resources */,
+				7BF5E59D2A0366AA00BA8BE3 /* dog.json in Resources */,
 				7BB75D5229E3F6E4001DA941 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,32 +428,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				7BB75D6E29E3FA98001DA941 /* OBUtils.swift in Sources */,
+				7BF5E5A02A0368F300BA8BE3 /* PermissionViewController.swift in Sources */,
 				7BB75D7429E40588001DA941 /* TabbarViewController.swift in Sources */,
 				7BB75D6B29E3F89B001DA941 /* DataManager.swift in Sources */,
-				7BC6EFB529E54B9D00FD2512 /* Streaming1View.swift in Sources */,
 				7BB75D7029E3FAE9001DA941 /* PreferenceDataUtils.swift in Sources */,
 				7BB75D7829E405CF001DA941 /* VideoViewController.swift in Sources */,
-				7BB75D7629E405C3001DA941 /* StreamingViewController.swift in Sources */,
+				7BB75D7629E405C3001DA941 /* MotionDetectionViewController.swift in Sources */,
 				7BB75D6429E3F7C0001DA941 /* dogClass.mlmodel in Sources */,
+				7BF5E58D2A0338D900BA8BE3 /* ClassificationView.swift in Sources */,
 				7B74A03429E4E2CE008A20B8 /* User.swift in Sources */,
 				7B74A03729E4FAD1008A20B8 /* Dog.swift in Sources */,
 				7B74A03229E4E2B9008A20B8 /* LaunchViewModel.swift in Sources */,
 				7BC6EFBA29E54F0100FD2512 /* UIButton.swift in Sources */,
 				7BE5308329EE17D100AF84F4 /* OpenCVWrapper.mm in Sources */,
+				7BF5E58F2A034B5C00BA8BE3 /* OnBoardingViewController.swift in Sources */,
 				7B74A03929E4FD37008A20B8 /* StreamingViewModel.swift in Sources */,
 				7BB75D4929E3F6E4001DA941 /* AppDelegate.swift in Sources */,
 				7BE5308729EE2BCA00AF84F4 /* MotionDetectionManager.swift in Sources */,
+				7BF5E58B2A03386D00BA8BE3 /* ClassificationViewController.swift in Sources */,
 				7BC6EFB729E54C9C00FD2512 /* ModelManager.swift in Sources */,
 				7B74A03B29E4FD4C008A20B8 /* VideoViewModel.swift in Sources */,
+				7BF5E5932A034CC300BA8BE3 /* OnBoardSlide.swift in Sources */,
 				7BB75D4B29E3F6E4001DA941 /* SceneDelegate.swift in Sources */,
 				7BB75D7229E3FDDA001DA941 /* LaunchViewController.swift in Sources */,
-				7BC3AEC529E66E6F00376DA8 /* StreamingView.swift in Sources */,
+				7BC3AEC529E66E6F00376DA8 /* MotionDetectionView.swift in Sources */,
+				7BF5E5A22A03693300BA8BE3 /* OBLabel.swift in Sources */,
 				7BB75D6729E3F850001DA941 /* ObViewController.swift in Sources */,
 				7B74A02F29E4DDBC008A20B8 /* CLog.swift in Sources */,
 				7BC3AEBF29E64D9B00376DA8 /* VideoView.swift in Sources */,
 				7BB75D6929E3F869001DA941 /* Const.swift in Sources */,
 				7BC6EFB329E542C800FD2512 /* dogPose.mlmodel in Sources */,
 				7B74A09829E52E5B008A20B8 /* Classification.swift in Sources */,
+				7BF5E5912A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
