@@ -61,7 +61,7 @@ class OBUtils {
     }
 
     private func controlRange(rect: CGRect, maxWidth: CGFloat, maxHeight: CGFloat) -> CGRect {
-       let controlRange = 100
+       let controlRange = 155
        
        var controlLeft = rect.origin.x - CGFloat(controlRange)
        var controlTop = rect.origin.y - CGFloat(controlRange)
@@ -108,8 +108,20 @@ class OBUtils {
            areaArray[index] = resultRect
        }
        
-       return areaArray
+       return removeSmallArea(areas: areaArray)
     }
+    
+    private func removeSmallArea(areas: [CGRect]) -> [CGRect] {
+        var resultAreaArray: [CGRect] = []
+        let removeArea = 50.0
+        for area in areas {
+          if area.size.width < removeArea || area.size.height < removeArea {
+            continue
+          }
+          resultAreaArray.append(area)
+        }
+        return resultAreaArray
+      }
 
 }
 
@@ -149,3 +161,4 @@ extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 }
+

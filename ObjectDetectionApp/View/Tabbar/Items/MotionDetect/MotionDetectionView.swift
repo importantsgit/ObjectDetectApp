@@ -67,18 +67,24 @@ extension MotionDetectionView {
         motionDetection = MotionDetectionManager()
         timer = Timer.scheduledTimer(withTimeInterval: 0.5 , repeats: true, block: {[weak self] _ in
             guard let self = self else {return}
-
+            self.detectionOverlay.sublayers = nil
             if let motionDetection = self.motionDetection {
-                let rects = motionDetection.getDetectValue()
-                print("==")
+//                let rects = motionDetection.getDetectValue()
+//                print("==")
+//                if !rects.isEmpty {
+//                    rects.forEach{
+//                        CLog("\($0.cgRectValue.width), \($0.cgRectValue.height)")
+//                        self.drawMotion($0.cgRectValue)
+//                    }
+//                    print("==")
+//                }
+                let rects = motionDetection.getDetectRect()
                 if !rects.isEmpty {
-                    self.detectionOverlay.sublayers = nil
                     rects.forEach{
-                        CLog("\($0.cgRectValue.width), \($0.cgRectValue.height)")
-                        self.drawMotion($0.cgRectValue)
+                        self.drawMotion($0)
                     }
-                    print("==")
                 }
+
             }
         })
     }
@@ -96,6 +102,7 @@ extension MotionDetectionView {
     
     //MARK: - setupCamera
     private func setupCameraLiveView() {
+
         var deviceInput: AVCaptureDeviceInput!
         let captureDevice = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .back).devices.first
         do {

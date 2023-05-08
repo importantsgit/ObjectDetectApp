@@ -81,10 +81,41 @@ extension OBButton {
         if #available(iOS 15.0, *) {
             var config = UIButton.Configuration.filled()
             config.attributedTitle = AttributedString(text, attributes: AttributeContainer([NSAttributedString.Key.font: self.buttonFont]))
-            config.titleAlignment = .center
             config.baseForegroundColor = .white
-            config.baseBackgroundColor = .systemRed
+            config.baseBackgroundColor = OBColor.accentColor
             config.cornerStyle = .capsule
+            self.configuration = config
+            
+        } else {
+            self.setTitle(text, for: .normal)
+            self.setTitle(text, for: .selected)
+            self.setTitle(text, for: .disabled)
+            self.titleLabel?.font = self.buttonFont
+        }
+    }
+    
+    enum PopupButtonType {
+        case dismiss
+        case active
+    }
+    
+    func setPopupConfigration(_ text: String,_ font: UIFont?, type: PopupButtonType) {
+        if let font = font {
+            self.buttonFont = font
+        }
+        if #available(iOS 15.0, *) {
+            var config = UIButton.Configuration.filled()
+            
+            if type == .dismiss {
+                config = UIButton.Configuration.plain()
+                config.baseForegroundColor = OBColor.decsriptionColor.decsription1
+            } else {
+                config.baseForegroundColor = .white
+                config.baseBackgroundColor = OBColor.accentColor
+            }
+            
+            config.attributedTitle = AttributedString(text, attributes: AttributeContainer([NSAttributedString.Key.font: self.buttonFont]))
+            config.cornerStyle = .medium
             self.configuration = config
             
         } else {

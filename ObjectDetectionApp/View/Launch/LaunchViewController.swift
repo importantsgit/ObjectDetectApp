@@ -24,17 +24,9 @@ class LaunchViewController: OBViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if !Consts.consts.IS_DEBUG {
-            let tabbarVC = TabbarViewController()
-            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                DispatchQueue.main.async {
-                    sceneDelegate.changeRootVC(tabbarVC, animated: true)
-                }
-            }
-        } else {
-            self.setupLayout()
-            self.checkPremissions()
-        }
+
+        self.setupLayout()
+        self.checkPremissions()
     }
 }
 

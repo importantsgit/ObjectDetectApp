@@ -45,6 +45,9 @@
 		7BF5E59D2A0366AA00BA8BE3 /* dog.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BF5E59C2A0366AA00BA8BE3 /* dog.json */; };
 		7BF5E5A02A0368F300BA8BE3 /* PermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E59F2A0368F300BA8BE3 /* PermissionViewController.swift */; };
 		7BF5E5A22A03693300BA8BE3 /* OBLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF5E5A12A03693300BA8BE3 /* OBLabel.swift */; };
+		7BFB78AD2A088AF1006807E1 /* OBColors+Super.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFB78AC2A088AF1006807E1 /* OBColors+Super.swift */; };
+		7BFB78AF2A088F9F006807E1 /* OBFonts+Super.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFB78AE2A088F9F006807E1 /* OBFonts+Super.swift */; };
+		7BFB78B22A08BBB4006807E1 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFB78B12A08BBB4006807E1 /* PopupViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +94,9 @@
 		7BF5E59C2A0366AA00BA8BE3 /* dog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dog.json; sourceTree = "<group>"; };
 		7BF5E59F2A0368F300BA8BE3 /* PermissionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionViewController.swift; sourceTree = "<group>"; };
 		7BF5E5A12A03693300BA8BE3 /* OBLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBLabel.swift; sourceTree = "<group>"; };
+		7BFB78AC2A088AF1006807E1 /* OBColors+Super.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OBColors+Super.swift"; sourceTree = "<group>"; };
+		7BFB78AE2A088F9F006807E1 /* OBFonts+Super.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OBFonts+Super.swift"; sourceTree = "<group>"; };
+		7BFB78B12A08BBB4006807E1 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		800ADAAF954AE3827708B4C0 /* Pods_ObjectDetectionApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObjectDetectionApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB91639BE3AAA633CE107189 /* Pods-ObjectDetectionApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectDetectionApp.release.xcconfig"; path = "Target Support Files/Pods-ObjectDetectionApp/Pods-ObjectDetectionApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,8 +176,7 @@
 				7B74A03029E4E171008A20B8 /* ViewModel */,
 				7BB75D6129E3F7B4001DA941 /* Model */,
 				7BB75D5C29E3F766001DA941 /* Service */,
-				7BB75D4829E3F6E4001DA941 /* AppDelegate.swift */,
-				7BB75D4A29E3F6E4001DA941 /* SceneDelegate.swift */,
+				7BFB78B02A08B473006807E1 /* AppDelegate */,
 				7BB75D6829E3F869001DA941 /* Const.swift */,
 				7BB75D6029E3F7A7001DA941 /* Resource */,
 				7BB75D5629E3F6E4001DA941 /* Info.plist */,
@@ -195,11 +200,9 @@
 		7BB75D5D29E3F76E001DA941 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7BB75D6629E3F850001DA941 /* ObViewController.swift */,
 				7BB75D5E29E3F777001DA941 /* Launch */,
 				7BB75D5F29E3F78C001DA941 /* Tabbar */,
 				7BC6EFB829E54EE400FD2512 /* UI */,
-				7BF5E5A12A03693300BA8BE3 /* OBLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -253,6 +256,8 @@
 				7BB75D6D29E3FA98001DA941 /* OBUtils.swift */,
 				7BB75D6F29E3FAE9001DA941 /* PreferenceDataUtils.swift */,
 				7B74A02E29E4DDBC008A20B8 /* CLog.swift */,
+				7BFB78AC2A088AF1006807E1 /* OBColors+Super.swift */,
+				7BFB78AE2A088F9F006807E1 /* OBFonts+Super.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -278,6 +283,9 @@
 		7BC6EFB829E54EE400FD2512 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				7BB75D6629E3F850001DA941 /* ObViewController.swift */,
+				7BF5E5A12A03693300BA8BE3 /* OBLabel.swift */,
+				7BFB78B12A08BBB4006807E1 /* PopupViewController.swift */,
 				7BC6EFB929E54F0100FD2512 /* UIButton.swift */,
 			);
 			path = UI;
@@ -308,6 +316,15 @@
 				7BF5E5902A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift */,
 			);
 			path = OnBoarding;
+			sourceTree = "<group>";
+		};
+		7BFB78B02A08B473006807E1 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7BB75D4829E3F6E4001DA941 /* AppDelegate.swift */,
+				7BB75D4A29E3F6E4001DA941 /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -438,6 +455,7 @@
 				7BF5E58D2A0338D900BA8BE3 /* ClassificationView.swift in Sources */,
 				7B74A03429E4E2CE008A20B8 /* User.swift in Sources */,
 				7B74A03729E4FAD1008A20B8 /* Dog.swift in Sources */,
+				7BFB78AF2A088F9F006807E1 /* OBFonts+Super.swift in Sources */,
 				7B74A03229E4E2B9008A20B8 /* LaunchViewModel.swift in Sources */,
 				7BC6EFBA29E54F0100FD2512 /* UIButton.swift in Sources */,
 				7BE5308329EE17D100AF84F4 /* OpenCVWrapper.mm in Sources */,
@@ -449,10 +467,12 @@
 				7BC6EFB729E54C9C00FD2512 /* ModelManager.swift in Sources */,
 				7B74A03B29E4FD4C008A20B8 /* VideoViewModel.swift in Sources */,
 				7BF5E5932A034CC300BA8BE3 /* OnBoardSlide.swift in Sources */,
+				7BFB78B22A08BBB4006807E1 /* PopupViewController.swift in Sources */,
 				7BB75D4B29E3F6E4001DA941 /* SceneDelegate.swift in Sources */,
 				7BB75D7229E3FDDA001DA941 /* LaunchViewController.swift in Sources */,
 				7BC3AEC529E66E6F00376DA8 /* MotionDetectionView.swift in Sources */,
 				7BF5E5A22A03693300BA8BE3 /* OBLabel.swift in Sources */,
+				7BFB78AD2A088AF1006807E1 /* OBColors+Super.swift in Sources */,
 				7BB75D6729E3F850001DA941 /* ObViewController.swift in Sources */,
 				7B74A02F29E4DDBC008A20B8 /* CLog.swift in Sources */,
 				7BC3AEBF29E64D9B00376DA8 /* VideoView.swift in Sources */,

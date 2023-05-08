@@ -18,8 +18,6 @@
     int thresh = 25;
     //thresh 값 이상인 차이 값 중 가장 큰 값
     int max_diff = 5;
-    int width = images[0].size.width;
-    int height = images[0].size.height;
     
     cv::Mat bImageMat, cImageMat;
     
@@ -59,59 +57,27 @@
         auto rect = cv::boundingRect(result);
         rectList.push_back(rect);
         
+        if (rectList.size() > 10) {
+            break;
+        }
     }
-    NSLog(@"%lu size",(unsigned long)rectList.size());
     
-    //cv::groupRectangles(rectList, 1, 0.1);
-    std::vector<int> indices;
-    std::vector<float> scores;
-    cv::dnn::NMSBoxes(rectList, scores, 0.2f, 1, indices);
+    int size = rectList.size();
+    for (int i = 0; i < size; i++) {
+        rectList.push_back(rectList[i]);
+    }
+
     
-    NSLog(@"%lu size",(unsigned long)rectList.size());
-    
-    for (int i = 0; i < indices.size(); i++) {
-        cv::Rect rect = rectList[indices[i]];
+    cv::groupRectangles(rectList, 1, 1.0);
+
+    for (int i = 0; i < rectList.size(); i++) {
+        cv::Rect rect = rectList[i];
         NSLog(@"%d %d %d %d",rect.x, rect.y, rect.width, rect.height);
         CGRect cgRect = CGRectMake(rect.x, rect.y, rect.width, rect.height);
         [cgRects addObject:[NSValue valueWithCGRect:cgRect]];
     }
-    NSLog(@"%lu",(unsigned long)cgRects.count);
 
     return [NSArray arrayWithArray:cgRects];
-    
-    if (false) {
-        
-    }
-    cv::Mat difff;
-    [self morphologyExWithInput:diff output:difff];
-
-    int diff_cnt = [self countNonZeroWithMat:difff];
-    CGRect rect;
-
-    if (diff_cnt > max_diff) {
-        NSArray<NSValue *> *nzero = [self nonZeroIndicesFromArray: difff];
-        CGPoint pt1 = CGPointMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT));
-        CGPoint pt2 = CGPointMake(CGFloat(0), CGFloat(0));
-        for (NSValue *value in nzero) {
-            CGPoint point = [value CGPointValue];
-            pt1.x = MIN(pt1.x, point.x);
-            pt1.y = MIN(pt1.y, point.y);
-            pt2.x = MAX(pt2.x, point.x);
-            pt2.y = MAX(pt2.y, point.y);
-        }
-        pt1.x -= 50.0;
-        pt1.y -= 50.0;
-        pt2.x += 50.0;
-        pt2.y += 50.0;
-
-        if (pt1.x < 0.0) {pt1.x = 0.0;}
-        if (pt1.y < 0.0) {pt1.y = 0.0;}
-        if (pt2.x > width) {pt2.x = width - 0.1;}
-        if (pt2.y > height) {pt2.y = height - 0.1;}
-
-        //return rect = CGRectMake(pt1.x, pt1.y,pt2.x - pt1.x, pt2.y - pt1.y);
-    }
-
 }
 
 - (void)morphologyExWithInput:(cv::Mat)input output:(cv::Mat &)output {
@@ -145,6 +111,36 @@
         }
     }
     return [nonZeroIndices copy];
+}
+
+- (void)printArray:(cv::Mat)mat {
+    cv::Mat difff, diff;
+    [self morphologyExWithInput:diff output:difff];
+
+    int diff_cnt = [self countNonZeroWithMat:difff];
+    CGRect rect;
+    int max_diff = 5;
+    if (diff_cnt > max_diff) {
+        NSArray<NSValue *> *nzero = [self nonZeroIndicesFromArray: difff];
+        CGPoint pt1 = CGPointMake(CGFloat(MAXFLOAT), CGFloat(MAXFLOAT));
+        CGPoint pt2 = CGPointMake(CGFloat(0), CGFloat(0));
+        for (NSValue *value in nzero) {
+            CGPoint point = [value CGPointValue];
+            pt1.x = MIN(pt1.x, point.x);
+            pt1.y = MIN(pt1.y, point.y);
+            pt2.x = MAX(pt2.x, point.x);
+            pt2.y = MAX(pt2.y, point.y);
+        }
+        pt1.x -= 50.0;
+        pt1.y -= 50.0;
+        pt2.x += 50.0;
+        pt2.y += 50.0;
+        
+        if (pt1.x < 0.0) {pt1.x = 0.0;}
+        if (pt1.y < 0.0) {pt1.y = 0.0;}
+        
+        //return rect = CGRectMake(pt1.x, pt1.y,pt2.x - pt1.x, pt2.y - pt1.y);
+    }
 }
 
 @end

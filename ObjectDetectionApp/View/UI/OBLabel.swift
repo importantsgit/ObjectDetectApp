@@ -39,6 +39,12 @@ class CreateLabel {
     }
     
     @discardableResult
+    public func setuplabelAlignment(_ alignment: NSTextAlignment) -> CreateLabel {
+        self.label.textAlignment = alignment
+        return self
+    }
+    
+    @discardableResult
     public func setupLineHeight(_ lineHeight: CGFloat) -> CreateLabel {
         let style = NSMutableParagraphStyle()
         let lineHeight = lineHeight

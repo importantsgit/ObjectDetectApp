@@ -66,9 +66,9 @@ class MotionDetectionManager {
             let rects = openCVWrapper.detectMotion([image1, image2, image3]).map{$0.cgRectValue}
             
             var resultArrayList = rects
-            if (resultArrayList.count > 1) {
-                resultArrayList = OBUtils.shared.joinOverlapArea(areas: rects, width: image3.size.width, height: image3.size.height)
-            }
+//            if (resultArrayList.count > 1) {
+//                resultArrayList = OBUtils.shared.joinOverlapArea(areas: rects, width: image3.size.width, height: image3.size.height)
+//            }
             return resultArrayList
         }
         return []
