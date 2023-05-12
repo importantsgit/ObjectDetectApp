@@ -35,16 +35,13 @@ extension LaunchViewController {
     private func setupLayout() {
         [titleLabel].forEach{
             self.view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        titleLabel.snp.makeConstraints{
-            $0.center.equalToSuperview()
-        }
-    }
-    
-    func callToModelForUIUpdate() {
-        self.launchViewModel = LaunchViewModel()
-        self.launchViewModel?.bindLaunchViewModelToController = {}
+        NSLayoutConstraint.activate([
+            titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
     }
     
     func checkPremissions() {

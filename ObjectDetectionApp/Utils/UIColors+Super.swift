@@ -5,7 +5,7 @@
 //  Created by 이재훈 on 2023/05/08.
 //
 
-import Foundation
+import UIKit
 
 enum OBColor {
     static let accentColor = UIColor(hex: "#FF3B30")
@@ -14,6 +14,7 @@ enum OBColor {
     
     enum titleColor {
         static let title1 = UIColor(hex: "#1B1B1B")
+        static let title2 = UIColor(hex: "#2C2C2C")
     }
     
     enum decsriptionColor {

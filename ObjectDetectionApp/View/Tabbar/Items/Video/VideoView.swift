@@ -165,7 +165,7 @@ extension VideoView {
             let resizedImage = UIGraphicsGetImageFromCurrentImageContext()!
             UIGraphicsEndImageContext()
             
-            self.motionDetection.inqueue(image: resizedImage)
+            self.motionDetection.input(image: resizedImage)
         }
     }
 

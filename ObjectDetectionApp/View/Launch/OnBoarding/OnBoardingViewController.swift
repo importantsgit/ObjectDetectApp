@@ -57,18 +57,19 @@ extension OnBoardingViewController {
     func setupLayout() {
         [collectionView,pageControl].forEach{
             view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
-
-        collectionView.snp.makeConstraints{
-            $0.edges.equalToSuperview()
-        }
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         
-        pageControl.snp.makeConstraints{
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(150)
-            $0.height.equalTo(48)
-            $0.bottom.equalToSuperview().inset(48)
-        }
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pageControl.widthAnchor.constraint(equalToConstant: 150),
+            pageControl.heightAnchor.constraint(equalToConstant: 48),
+            pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -48)
+        ])
     }
     
     @objc func pageChanged(_ sender: UIPageControl) {

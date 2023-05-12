@@ -274,7 +274,7 @@ extension MotionDetectionView: AVCaptureVideoDataOutputSampleBufferDelegate {
             guard let motionDetection = motionDetection,
                   let pixelBuffer = pixelBuffer  else {return}
         
-            motionDetection.inqueue(image: resizedImage)
+            motionDetection.input(image: resizedImage)
             self.pixelBuffer = pixelBuffer
         
     }

@@ -62,7 +62,7 @@
         }
     }
     
-    int size = rectList.size();
+    long size = rectList.size();
     for (int i = 0; i < size; i++) {
         rectList.push_back(rectList[i]);
     }
@@ -72,7 +72,6 @@
 
     for (int i = 0; i < rectList.size(); i++) {
         cv::Rect rect = rectList[i];
-        NSLog(@"%d %d %d %d",rect.x, rect.y, rect.width, rect.height);
         CGRect cgRect = CGRectMake(rect.x, rect.y, rect.width, rect.height);
         [cgRects addObject:[NSValue valueWithCGRect:cgRect]];
     }

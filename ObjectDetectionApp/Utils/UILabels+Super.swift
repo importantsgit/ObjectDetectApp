@@ -1,18 +1,20 @@
 //
-//  OBLabel.swift
+//  UILabels+Super.swift
 //  ObjectDetectionApp
 //
-//  Created by 이재훈 on 2023/05/04.
+//  Created by 이재훈 on 2023/05/12.
 //
 
 import UIKit
 
 class CreateLabel {
     private var label = UILabel()
-    private var labelText: String = "텍스트"
-    private var labelFont: UIFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+    private var labelText: String = ""
+    private var labelFont: UIFont = OBFont.description.description1
     private var labelTextColor: UIColor = .tertiaryLabel
-    private var labelNumberOfLines:Int?
+    private var labelNumberOfLines:Int = 1
+    private var lineHeight: CGFloat?
+    private var alignment: NSTextAlignment = .left
 
     @discardableResult
     public func setupText(_ text: String) -> CreateLabel {
@@ -40,39 +42,31 @@ class CreateLabel {
     
     @discardableResult
     public func setuplabelAlignment(_ alignment: NSTextAlignment) -> CreateLabel {
-        self.label.textAlignment = alignment
+        self.alignment = alignment
         return self
     }
     
     @discardableResult
     public func setupLineHeight(_ lineHeight: CGFloat) -> CreateLabel {
-        let style = NSMutableParagraphStyle()
-        let lineHeight = lineHeight
-        style.maximumLineHeight = lineHeight
-        style.minimumLineHeight = lineHeight
-        style.alignment = .center
-        label.baselineAdjustment = .none
-        
-        label.attributedText = NSAttributedString(
-            string: label.text ?? "",
-            attributes: [
-                .paragraphStyle: style,
-                .baselineOffset: (lineHeight - label.font.lineHeight) / 2,
-            ])
-        
+        self.lineHeight = lineHeight
         return self
     }
     
     public func build() -> UILabel {
-        var num = 1
-        if let labelNumberOfLines = labelNumberOfLines { num = labelNumberOfLines }
         label.text = labelText
         label.font = labelFont
+        label.textAlignment = alignment
         label.textColor = labelTextColor
-        label.numberOfLines = num
+        label.numberOfLines = labelNumberOfLines
+        
+        guard let lineHeight = self.lineHeight else { return label }
+        label.lineHeight(to: lineHeight)
         // autoLayout 적용 (폰트크기 저절로 조절)
-        label.adjustsFontSizeToFitWidth = true
+        //label.adjustsFontSizeToFitWidth = true
 
         return label
     }
 }
+
+
+

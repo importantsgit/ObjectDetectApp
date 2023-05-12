@@ -8,56 +8,6 @@
 import UIKit
 import AVFoundation
 
-enum PermissionViewMargin {
-    static let titleLabelTopMargin: CGFloat = 56.0
-    static let titleDescriptionTopMargin: CGFloat = 8.0
-    
-    enum Common {
-        static let titleLeftMargin: CGFloat = 32.0
-        static let subDescriptionLeftMargin: CGFloat = -16.0
-        static let semiTitleBottomMargin: CGFloat = 24.0
-        static let subTitleBottomMargin: CGFloat = 36.0
-    }
-    
-    enum Section {
-        static let SectionMargin: CGFloat = 48.0
-    }
-    
-    enum LogoView {
-        static let size: CGFloat = 64.0
-        static let topMargin: CGFloat = 72.0
-    }
-    
-    enum AccessButton {
-        static let sideMargin: CGFloat = 24.0
-        static let bottomMargin: CGFloat = 32.0
-        static let height: CGFloat = 64.0
-    }
-}
-
-enum PermissionString {
-    static let permissionInfo = "권한 안내"
-    static let requiredAccess = "필수 접근 권한"
-    static let optionalAccess = "선택 접근 권한"
-    
-    enum title:String {
-        case Permission = "아래"
-        case camera = "카메라"
-        case call = "전화"
-        case blueTooth = "블루투스"
-        case loaction = "위치"
-        case storage = "저장공간"
-    }
-    
-    static func description(_ title: PermissionString.title = .Permission) -> String {
-        return "DetectionApp은 \(title.rawValue)권한을 필요로 합니다.\n서비스 사용 중 앱에서 요청 시 허용해주세요."
-    }
-    
-    static func getTitle(_ title: PermissionString.title = .Permission) -> String {
-        return "∙ \(title.rawValue)"
-    }
-}
-
 class PermissionViewController: OBViewController {
     
     var logoView: UIImageView = {

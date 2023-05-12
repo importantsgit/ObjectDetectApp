@@ -11,7 +11,7 @@ import SnapKit
 
 class OnBoardingCollectionViewCell: UICollectionViewCell {
     
-    var actionButtonTap: (()-> Void)?
+    var actionButtonTap: (() -> Void)?
     
     var animationView: LottieAnimationView = {
         var uiView = LottieAnimationView(frame: .zero)
@@ -21,15 +21,15 @@ class OnBoardingCollectionViewCell: UICollectionViewCell {
     }()
     
     private var label = CreateLabel()
-        .setupTextColor(UIColor(hex: "#2C2C2C"))
-        .setupFont(UIFont(name: "AppleSDGothicNeo-SemiBold", size: 16))
+        .setupTextColor(OBColor.titleColor.title2)
+        .setupFont(OBFont.title.title1)
         .setuplabelNumberOfLines(0)
-        .setupLineHeight(32)
+        .setupLineHeight(100.0)
+        .setuplabelAlignment(.center)
         .build()
     
     lazy private var nextButton: UIButton = {
         let button = UIButton()
-        button.setTitle("지금 사용하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(moveVC), for: .touchUpInside)
         button.backgroundColor = .systemPurple
@@ -48,8 +48,8 @@ class OnBoardingCollectionViewCell: UICollectionViewCell {
         if !animationView.isAnimationPlaying {
             animationView.play()
         }
+        
         setupLayout()
-
     }
     
 }
@@ -77,15 +77,10 @@ extension OnBoardingCollectionViewCell {
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(48)
         }
+
     }
     
     @objc func moveVC() {
         actionButtonTap?()
     }
-    
-
-}
-
-extension UILabel{
-
 }
