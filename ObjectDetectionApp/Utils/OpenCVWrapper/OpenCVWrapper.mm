@@ -20,7 +20,7 @@
     int max_diff = 5;
     
     cv::Mat bImageMat, cImageMat;
-    
+
     UIImageToMat(images[1].copy, bImageMat);
     UIImageToMat(images[2].copy, cImageMat);
     

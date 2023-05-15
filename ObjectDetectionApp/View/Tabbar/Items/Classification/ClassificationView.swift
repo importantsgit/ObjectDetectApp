@@ -78,7 +78,7 @@ extension ClassificationView {
                   let pixelBuffer = self.pixelBuffer
             else {return}
                     
-            guard let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.70, confidenceThreshold: 0.70) else {return}
+            guard let output = try? self.dogClassModel.prediction(image: pixelBuffer, iouThreshold: 0.50, confidenceThreshold: 0.50) else {return}
             if !output.confidenceShapedArray.isEmpty {
                 DispatchQueue.main.async(execute: {
                     self.drawVisionRequestResults(output, pixelBuffer)

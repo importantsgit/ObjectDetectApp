@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OnBoardingString {
+enum OnBoardingCellString {
     
     enum Description {
         static let motionString = "앱을 통해 사물의 움직임을 판별할 수 있습니다!\nOpenCV을 활용했어요"

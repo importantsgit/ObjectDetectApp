@@ -53,14 +53,15 @@ class CreateLabel {
     }
     
     public func build() -> UILabel {
+        label.numberOfLines = labelNumberOfLines
         label.text = labelText
         label.font = labelFont
-        label.textAlignment = alignment
         label.textColor = labelTextColor
-        label.numberOfLines = labelNumberOfLines
         
         guard let lineHeight = self.lineHeight else { return label }
         label.lineHeight(to: lineHeight)
+        label.textAlignment = alignment
+        
         // autoLayout 적용 (폰트크기 저절로 조절)
         //label.adjustsFontSizeToFitWidth = true
 

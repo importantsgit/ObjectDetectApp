@@ -14,7 +14,7 @@ struct OnBoardSlide {
     let buttonTitle: String
     
     static let collection: [OnBoardSlide] = [
-        .init(title: OnBoardingString.Description.motionString, animationName: "camera", buttonColor: .systemRed, buttonTitle: OnBoardingString.Button.nextButton),
-        .init(title: OnBoardingString.Description.detectionString, animationName: "dog", buttonColor: .systemRed, buttonTitle: OnBoardingString.Button.startButton)
+        .init(title: OnBoardingCellString.Description.motionString, animationName: "camera", buttonColor: .systemRed, buttonTitle: OnBoardingCellString.Button.nextButton),
+        .init(title: OnBoardingCellString.Description.detectionString, animationName: "dog", buttonColor: .systemRed, buttonTitle: OnBoardingCellString.Button.startButton)
     ]
 }

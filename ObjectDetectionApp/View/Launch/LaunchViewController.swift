@@ -11,8 +11,6 @@ import SnapKit
 
 class LaunchViewController: OBViewController {
     
-    var launchViewModel: LaunchViewModel?
-    
     let titleLabel: UILabel = {
         var label = UILabel()
         label.text = "DetectionApp"

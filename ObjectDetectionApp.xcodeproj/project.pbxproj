@@ -9,11 +9,7 @@
 /* Begin PBXBuildFile section */
 		46432EB8AD7A2A0236A99072 /* Pods_ObjectDetectionApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 800ADAAF954AE3827708B4C0 /* Pods_ObjectDetectionApp.framework */; };
 		7B74A02F29E4DDBC008A20B8 /* CLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74A02E29E4DDBC008A20B8 /* CLog.swift */; };
-		7B74A03229E4E2B9008A20B8 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74A03129E4E2B9008A20B8 /* LaunchViewModel.swift */; };
-		7B74A03429E4E2CE008A20B8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74A03329E4E2CE008A20B8 /* User.swift */; };
 		7B74A03729E4FAD1008A20B8 /* Dog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74A03629E4FAD1008A20B8 /* Dog.swift */; };
-		7B74A03929E4FD37008A20B8 /* StreamingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74A03829E4FD37008A20B8 /* StreamingViewModel.swift */; };
-		7B74A03B29E4FD4C008A20B8 /* VideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74A03A29E4FD4C008A20B8 /* VideoViewModel.swift */; };
 		7B74A09829E52E5B008A20B8 /* Classification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B74A09729E52E5B008A20B8 /* Classification.swift */; };
 		7BB75D4929E3F6E4001DA941 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D4829E3F6E4001DA941 /* AppDelegate.swift */; };
 		7BB75D4B29E3F6E4001DA941 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D4A29E3F6E4001DA941 /* SceneDelegate.swift */; };
@@ -22,7 +18,6 @@
 		7BB75D6429E3F7C0001DA941 /* dogClass.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D6229E3F7C0001DA941 /* dogClass.mlmodel */; };
 		7BB75D6729E3F850001DA941 /* ObViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D6629E3F850001DA941 /* ObViewController.swift */; };
 		7BB75D6929E3F869001DA941 /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D6829E3F869001DA941 /* Const.swift */; };
-		7BB75D6B29E3F89B001DA941 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D6A29E3F89B001DA941 /* DataManager.swift */; };
 		7BB75D6E29E3FA98001DA941 /* OBUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D6D29E3FA98001DA941 /* OBUtils.swift */; };
 		7BB75D7029E3FAE9001DA941 /* PreferenceDataUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D6F29E3FAE9001DA941 /* PreferenceDataUtils.swift */; };
 		7BB75D7229E3FDDA001DA941 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB75D7129E3FDDA001DA941 /* LaunchViewController.swift */; };
@@ -32,7 +27,6 @@
 		7BC3AEBF29E64D9B00376DA8 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AEBE29E64D9B00376DA8 /* VideoView.swift */; };
 		7BC3AEC529E66E6F00376DA8 /* MotionDetectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC3AEC429E66E6F00376DA8 /* MotionDetectionView.swift */; };
 		7BC6EFB329E542C800FD2512 /* dogPose.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB229E542C800FD2512 /* dogPose.mlmodel */; };
-		7BC6EFB729E54C9C00FD2512 /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */; };
 		7BC6EFBA29E54F0100FD2512 /* UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC6EFB929E54F0100FD2512 /* UIButton.swift */; };
 		7BDDAC282A0DDDD80070D1B3 /* dog.json in Resources */ = {isa = PBXBuildFile; fileRef = 7BDDAC272A0DDDD80070D1B3 /* dog.json */; };
 		7BDDAC2A2A0E014E0070D1B3 /* ImageQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDDAC292A0E014E0070D1B3 /* ImageQueue.swift */; };
@@ -61,11 +55,7 @@
 /* Begin PBXFileReference section */
 		5858340811CCB909904708B5 /* Pods-ObjectDetectionApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectDetectionApp.debug.xcconfig"; path = "Target Support Files/Pods-ObjectDetectionApp/Pods-ObjectDetectionApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7B74A02E29E4DDBC008A20B8 /* CLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLog.swift; sourceTree = "<group>"; };
-		7B74A03129E4E2B9008A20B8 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
-		7B74A03329E4E2CE008A20B8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7B74A03629E4FAD1008A20B8 /* Dog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dog.swift; sourceTree = "<group>"; };
-		7B74A03829E4FD37008A20B8 /* StreamingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingViewModel.swift; sourceTree = "<group>"; };
-		7B74A03A29E4FD4C008A20B8 /* VideoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewModel.swift; sourceTree = "<group>"; };
 		7B74A09729E52E5B008A20B8 /* Classification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classification.swift; sourceTree = "<group>"; };
 		7BB75D4529E3F6E4001DA941 /* ObjectDetectionApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectDetectionApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BB75D4829E3F6E4001DA941 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +66,6 @@
 		7BB75D6229E3F7C0001DA941 /* dogClass.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = dogClass.mlmodel; sourceTree = "<group>"; };
 		7BB75D6629E3F850001DA941 /* ObViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObViewController.swift; sourceTree = "<group>"; };
 		7BB75D6829E3F869001DA941 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
-		7BB75D6A29E3F89B001DA941 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		7BB75D6D29E3FA98001DA941 /* OBUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBUtils.swift; sourceTree = "<group>"; };
 		7BB75D6F29E3FAE9001DA941 /* PreferenceDataUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceDataUtils.swift; sourceTree = "<group>"; };
 		7BB75D7129E3FDDA001DA941 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
@@ -86,7 +75,6 @@
 		7BC3AEBE29E64D9B00376DA8 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		7BC3AEC429E66E6F00376DA8 /* MotionDetectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionDetectionView.swift; sourceTree = "<group>"; };
 		7BC6EFB229E542C800FD2512 /* dogPose.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = dogPose.mlmodel; sourceTree = "<group>"; };
-		7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		7BC6EFB929E54F0100FD2512 /* UIButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIButton.swift; sourceTree = "<group>"; };
 		7BDDAC272A0DDDD80070D1B3 /* dog.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dog.json; sourceTree = "<group>"; };
 		7BDDAC292A0E014E0070D1B3 /* ImageQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageQueue.swift; sourceTree = "<group>"; };
@@ -146,15 +134,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7B74A03029E4E171008A20B8 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				7B74A03829E4FD37008A20B8 /* StreamingViewModel.swift */,
-				7B74A03A29E4FD4C008A20B8 /* VideoViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		7B74A03529E4F9B8008A20B8 /* Items */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,12 +167,9 @@
 			children = (
 				7BB75D6C29E3FA88001DA941 /* Utils */,
 				7BB75D5D29E3F76E001DA941 /* View */,
-				7B74A03129E4E2B9008A20B8 /* LaunchViewModel.swift */,
-				7B74A03029E4E171008A20B8 /* ViewModel */,
 				7BB75D6129E3F7B4001DA941 /* Model */,
 				7BB75D5C29E3F766001DA941 /* Service */,
 				7BFB78B02A08B473006807E1 /* AppDelegate */,
-				7BB75D6829E3F869001DA941 /* Const.swift */,
 				7BB75D6029E3F7A7001DA941 /* Resource */,
 				7BB75D5629E3F6E4001DA941 /* Info.plist */,
 				7BE5308029EE17D100AF84F4 /* ObjectDetectionApp-Bridging-Header.h */,
@@ -205,9 +181,7 @@
 		7BB75D5C29E3F766001DA941 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				7BB75D6A29E3F89B001DA941 /* DataManager.swift */,
 				7B74A09729E52E5B008A20B8 /* Classification.swift */,
-				7BC6EFB629E54C9C00FD2512 /* ModelManager.swift */,
 				7BE5308629EE2BCA00AF84F4 /* MotionDetectionManager.swift */,
 				7BDDAC292A0E014E0070D1B3 /* ImageQueue.swift */,
 			);
@@ -218,6 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				7BB75D5E29E3F777001DA941 /* Launch */,
+				7BDDAC312A0E07F80070D1B3 /* Permission */,
+				7BF5E59E2A0368DC00BA8BE3 /* OnBoarding */,
 				7BB75D5F29E3F78C001DA941 /* Tabbar */,
 				7BC6EFB829E54EE400FD2512 /* UI */,
 			);
@@ -229,8 +205,6 @@
 			children = (
 				7BB75D5329E3F6E4001DA941 /* LaunchScreen.storyboard */,
 				7BB75D7129E3FDDA001DA941 /* LaunchViewController.swift */,
-				7BDDAC312A0E07F80070D1B3 /* Permission */,
-				7BF5E59E2A0368DC00BA8BE3 /* OnBoarding */,
 			);
 			path = Launch;
 			sourceTree = "<group>";
@@ -259,7 +233,6 @@
 		7BB75D6129E3F7B4001DA941 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7B74A03329E4E2CE008A20B8 /* User.swift */,
 				7B74A03629E4FAD1008A20B8 /* Dog.swift */,
 				7BF5E5922A034CC300BA8BE3 /* OnBoardSlide.swift */,
 			);
@@ -270,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				7BF534A529ECDB9D00E56957 /* OpenCVWrapper */,
+				7BB75D6829E3F869001DA941 /* Const.swift */,
 				7B74A02E29E4DDBC008A20B8 /* CLog.swift */,
 				7BB75D6D29E3FA98001DA941 /* OBUtils.swift */,
 				7BB75D6F29E3FAE9001DA941 /* PreferenceDataUtils.swift */,
@@ -321,6 +295,16 @@
 			path = Permission;
 			sourceTree = "<group>";
 		};
+		7BE325EE2A11EBEB0037546F /* OnBoardingCell */ = {
+			isa = PBXGroup;
+			children = (
+				7BF5E5902A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift */,
+				7BDDAC342A0E083E0070D1B3 /* OnBoardingMargin.swift */,
+				7BDDAC362A0E08480070D1B3 /* OnBoardingString.swift */,
+			);
+			path = OnBoardingCell;
+			sourceTree = "<group>";
+		};
 		7BF534A529ECDB9D00E56957 /* OpenCVWrapper */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,9 +327,7 @@
 			isa = PBXGroup;
 			children = (
 				7BF5E58E2A034B5C00BA8BE3 /* OnBoardingViewController.swift */,
-				7BF5E5902A034BF700BA8BE3 /* OnBoardingCollectionViewCell.swift */,
-				7BDDAC342A0E083E0070D1B3 /* OnBoardingMargin.swift */,
-				7BDDAC362A0E08480070D1B3 /* OnBoardingString.swift */,
+				7BE325EE2A11EBEB0037546F /* OnBoardingCell */,
 			);
 			path = OnBoarding;
 			sourceTree = "<group>";
@@ -481,27 +463,21 @@
 				7BB75D7429E40588001DA941 /* TabbarViewController.swift in Sources */,
 				7BDDAC332A0E08100070D1B3 /* PermissionString.swift in Sources */,
 				7BDDAC3B2A0E19A80070D1B3 /* UILabel+Utils.swift in Sources */,
-				7BB75D6B29E3F89B001DA941 /* DataManager.swift in Sources */,
 				7BB75D7029E3FAE9001DA941 /* PreferenceDataUtils.swift in Sources */,
 				7BB75D7829E405CF001DA941 /* VideoViewController.swift in Sources */,
 				7BB75D7629E405C3001DA941 /* MotionDetectionViewController.swift in Sources */,
 				7BB75D6429E3F7C0001DA941 /* dogClass.mlmodel in Sources */,
 				7BF5E58D2A0338D900BA8BE3 /* ClassificationView.swift in Sources */,
 				7BDDAC392A0E0C5F0070D1B3 /* UILabels+Super.swift in Sources */,
-				7B74A03429E4E2CE008A20B8 /* User.swift in Sources */,
 				7B74A03729E4FAD1008A20B8 /* Dog.swift in Sources */,
 				7BFB78AF2A088F9F006807E1 /* UIFonts+Super.swift in Sources */,
-				7B74A03229E4E2B9008A20B8 /* LaunchViewModel.swift in Sources */,
 				7BC6EFBA29E54F0100FD2512 /* UIButton.swift in Sources */,
 				7BE5308329EE17D100AF84F4 /* OpenCVWrapper.mm in Sources */,
 				7BDDAC352A0E083E0070D1B3 /* OnBoardingMargin.swift in Sources */,
 				7BF5E58F2A034B5C00BA8BE3 /* OnBoardingViewController.swift in Sources */,
-				7B74A03929E4FD37008A20B8 /* StreamingViewModel.swift in Sources */,
 				7BB75D4929E3F6E4001DA941 /* AppDelegate.swift in Sources */,
 				7BE5308729EE2BCA00AF84F4 /* MotionDetectionManager.swift in Sources */,
 				7BF5E58B2A03386D00BA8BE3 /* ClassificationViewController.swift in Sources */,
-				7BC6EFB729E54C9C00FD2512 /* ModelManager.swift in Sources */,
-				7B74A03B29E4FD4C008A20B8 /* VideoViewModel.swift in Sources */,
 				7BF5E5932A034CC300BA8BE3 /* OnBoardSlide.swift in Sources */,
 				7BFB78B22A08BBB4006807E1 /* PopupViewController.swift in Sources */,
 				7BDDAC2E2A0E062B0070D1B3 /* UIColor+Utils.swift in Sources */,
