@@ -20,6 +20,5 @@ YoloV8과 CoreML을 이용한 객체 탐지 앱입니다.
    
    
 - 시안
-![Group 48](https://github.com/importantsgit/ObjectDetectApp/assets/118325810/5e704103-8738-4455-bfcb-edc512aed9a8)
-![Group 49](https://github.com/importantsgit/ObjectDetectApp/assets/118325810/4f120d8a-e575-4bbc-abd5-d57c30590569)
+https://youtu.be/7UCXDW3cC_w
 
