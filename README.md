@@ -1,7 +1,7 @@
 # -ObjectDetectApp
-Y![Frame 51](https://github.com/importantsgit/ObjectDetectApp/assets/118325810/c033836e-2890-4737-9f63-6b490f7ed25a)
+![Frame 51](https://github.com/importantsgit/ObjectDetectApp/assets/118325810/c033836e-2890-4737-9f63-6b490f7ed25a)
 
-oloV8과 CoreML을 이용한 객체 탐지 앱입니다.
+YoloV8과 CoreML을 이용한 객체 탐지 앱입니다.
 
 1. Yolov8을 활용한 강아지 종 분류(object Detection) / 헹동(Classification) 모델 제작
    a. roboflow를 활용하여 데이터셋 제작
@@ -19,3 +19,7 @@ oloV8과 CoreML을 이용한 객체 탐지 앱입니다.
    - 겹치는 영역을 하나로 합치지 위해 groupRectangles 사용 (detect된 rect들을 한번 복사한 후 사용해야 함 - 주의)
    
    
+- 시안
+![Group 48](https://github.com/importantsgit/ObjectDetectApp/assets/118325810/5e704103-8738-4455-bfcb-edc512aed9a8)
+![Group 49](https://github.com/importantsgit/ObjectDetectApp/assets/118325810/4f120d8a-e575-4bbc-abd5-d57c30590569)
+
